@@ -1,0 +1,51 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+
+
+<ng-template #avatarTemplate>
+  <nz-avatar nzSrc="../../../assets/default-avatar.png"></nz-avatar>
+</ng-template>
+
+<nz-tabset style="border-bottom: 1px solid #305680; padding-bottom: 10px">
+  <nz-tab>
+    <h4>
+      <span nz-icon nzType="home" style="margin-right: 10px;"></span>Menú Principal</h4>
+    <ul nz-menu nzMode="inline" >
+      <div *ngFor="let menuItem of organizationTab" style="background: #305680; color: #ffffff;">
+        <ng-container 
+          *ngIf="menuItem.sub_menus.length > 0; else emptySubMenuOrganization"
+        >
+          <li 
+            nz-submenu
+            [nzTitle]="menuItem.name"
+            [(nzOpen)]="menuItem.open"
+            (nzOpenChange)="clickSingle(organizationTab, menuItem)"
+            [nzDisabled]="menuItem.disabled"
+          >
+            <ul *ngIf="menuItem.sub_menus.length !== 0">
+              <li
+                aria-disabled="true"
+                nz-menu-item
+                *ngFor="let subItem of menuItem.sub_menus"
+                [nzDisabled]="!subItem.url"
+                [routerLink]="menuItem.domain + '/' + subItem.url"
+                [nzMatchRouter]="true"
+              >
+                {{ subItem.name }}
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+        <ng-template #emptySubMenuOrganization>
+          <li
+            aria-disabled="true"
+            nz-menu-item
+            [routerLink]="menuItem.domain"
+            [nzMatchRouter]="true"
+          >
+            {{ menuItem.name }}
+          </li>
+        </ng-template>
+      </div>
+    </ul>
+  </nz-tab>
+</nz-tabset>

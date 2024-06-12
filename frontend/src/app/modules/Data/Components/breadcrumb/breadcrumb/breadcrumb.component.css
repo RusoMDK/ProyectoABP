@@ -1,0 +1,17 @@
+
+/* breadcrumb.component.css */
+
+/* Estilos específicos para BreadcrumbComponent */
+
+nz-breadcrumb-item {
+  font-size: 16px;
+  color: #333;
+  /* Agrega más estilos según tus necesidades */
+}
+
+/* Estilos específicos para los separadores de breadcrumb */
+nz-breadcrumb-separator {
+  margin:0 auto;
+  color: #666;
+  /* Agrega más estilos según tus necesidades */
+}

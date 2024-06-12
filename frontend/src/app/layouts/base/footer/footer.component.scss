@@ -1,0 +1,15 @@
+nz-footer {
+  padding: 2px 5px;
+  border-top: 1px solid #d2d6de;
+  margin: 0;
+}
+
+span {
+  float: inline-end;
+}
+
+@media (max-width: 500px) {
+  nz-footer {
+    font-size: 15px;
+  }
+}

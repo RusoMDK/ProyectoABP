@@ -1,0 +1,57 @@
+<nz-header style="background: #305680; border-color: black;">
+  <div class="container">
+
+    <nz-divider nzType="vertical"></nz-divider>
+    <button
+      class="button-menu"
+      nz-button
+      nzType="text"
+      (click)="isCollapsedMethod()"
+    >
+      <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+    </button>
+    <nz-divider nzType="vertical"></nz-divider>
+
+
+    <div
+      class="menu-login"
+      style="margin-left: auto; padding: 0px 15px; border: 1px solid #eeeeee"
+    >
+      <a 
+        nz-tooltip
+        [nzTooltipArrowPointAtCenter]="true"
+        [nzTooltipTrigger]="'click'"
+        [nzTooltipPlacement]="'bottomLeft'"
+        [nzTooltipTitle]="userTemplate"
+        style="color: white"
+        ><nz-avatar nzIcon="user"></nz-avatar>
+        <span class="userName-user">
+          {{ userName || 'Nombre de User' }}</span
+        ></a
+      >
+    </div>
+  </div>
+</nz-header>
+
+<ng-template #userTemplate>
+  <nz-card [nzCover]="coverTemplate" [nzActions]="[actionPerfil, actionSalir]">
+    <button nz-button nzType="text">
+      <span nz-icon nzType="lock"></span>Bloquear
+    </button>
+  </nz-card>
+</ng-template>
+<ng-template #coverTemplate>
+  <nz-avatar [nzSize]="64" nzIcon="user" style="margin: auto"></nz-avatar>
+  {{ userName || 'Nombre de User' }}<br />
+  <small>Miembro desde {{ userTime || 'hace mucho tiempo' }}</small>
+</ng-template>
+<ng-template #actionPerfil>
+  <button nz-button nzType="default" routerLink="/">
+    <span nz-icon nzType="user"></span>Perfil
+  </button>
+</ng-template>
+<ng-template #actionSalir>
+  <button nz-button nzType="default" class="gray-2" (click)="logout()">
+    <span nz-icon nzType="logout"></span>Salir
+  </button>
+</ng-template>

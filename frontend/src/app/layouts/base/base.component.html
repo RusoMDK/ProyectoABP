@@ -1,0 +1,25 @@
+<nz-layout style="min-height: 100%">
+  <app-header (changeIsCollapsed)="isCollapsedLeftChange()"></app-header>
+
+  <nz-layout>
+    <nz-sider
+    style="background: #305680;"
+      nzCollapsible
+      nzWidth="250px"
+      nzBreakpoint="md"
+      [nzCollapsedWidth]="0"
+      [(nzCollapsed)]="isCollapsedLeft"
+    >
+      <app-menu-left></app-menu-left>
+    </nz-sider>
+
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+
+    <!-- <nz-sider> -->
+    <!-- <app-menu-right [isCollapsed]="isCollapsedRight"></app-menu-right> -->
+    <!-- </nz-sider> -->
+  </nz-layout>
+  <app-footer></app-footer>
+</nz-layout>

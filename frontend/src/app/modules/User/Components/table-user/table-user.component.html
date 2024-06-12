@@ -1,0 +1,71 @@
+
+<nz-table [nzLoading]="loading" #rowSelectionTable nzShowSizeChanger [nzData]="listOfData" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)" [nzFooter]="footerTemplate"  class="table-with-footer">
+    <thead>
+      <tr>
+        <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+        <th *ngFor="let column of columns">{{ column.display }}</th>
+        <th >Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of rowSelectionTable.data; let i = index" [class.selected-row]="isSelected(data.id)">
+  
+        <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+  
+        <td *ngFor="let column of columns">
+          <ng-container *ngIf="column.showSwitch; else nonSwitchTemplate">
+            <nz-switch [ngModel]="data[column.key]" (ngModelChange)="emitRequiredChange(data.id, column.key, $event)" nzCheckedChildren="Si" nzUnCheckedChildren="No"></nz-switch>
+          </ng-container>
+  
+          <ng-template #nonSwitchTemplate>
+            <!-- Manejo de la visualización para valores que no son switches -->
+            <ng-container >
+              {{ data[column.key] }}
+            </ng-container>
+          </ng-template>
+  
+  
+        </td>
+        <td>
+          <!-- Botón para eliminar -->
+          <button nz-button nzType="default" class="action-button" (click)="delete(data.id)">
+            <i nz-icon nzType="close"></i> Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <ng-template #footerTemplate>
+      <tr>
+        <td colspan="6">
+          <div class="footer-container">
+            <!-- Checkbox para "Seleccionar todos" -->
+  
+  
+              <nzlabel class="label" nz-checkbox [(ngModel)]="checked" [nzIndeterminate]="indeterminate" (ngModelChange)="onAllChecked($event)">
+                Todos los elementos ({{ listOfData.length }})
+              </nzlabel>
+              <span class="span">
+                Eliminar
+              </span>
+              <!-- Botón "Aceptar" -->
+              <button nz-button nzType="primary" (click)="confirmDeleteSelected()">
+              Aceptar
+            </button>
+            <!-- Dropdown para exportar -->
+  
+            <nz-dropdown-menu #menu4="nzDropdownMenu">
+              <ul nz-menu nzSelectable >
+                <li nz-menu-item ><i nz-icon nzType="file-pdf"></i> PDF</li>
+                <li nz-menu-item ><i nz-icon nzType="file-excel"></i> XLS</li>
+                <li nz-menu-item  ><i nz-icon nzType="file-word"></i> DOCX</li>
+              </ul>
+          </nz-dropdown-menu>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </nz-table>
+  
+  
+  
+  

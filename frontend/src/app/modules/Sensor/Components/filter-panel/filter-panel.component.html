@@ -1,0 +1,57 @@
+<div [ngClass]="{'panel': filters.length > 0}">
+  <div [ngClass]="{'filter-panel': filters.length > 0}">
+    <nz-row>
+      <!-- Columna de Filtros -->
+      <nz-col [nzSpan]="24">
+        <div class="filters">
+          <div *ngFor="let filter of filters" class="filter-item">
+            <nz-form-item nzLayout="vertical">
+              <nz-form-label [nzFor]="filter.key">{{filter.display}}</nz-form-label>
+              <div class="filter-with-advanced">
+                <nz-form-control>
+                  <!-- Verifica el tipo de filtro -->
+                  <ng-container [ngSwitch]="filter.type">
+                    <!-- Si el tipo es 'switch', muestra un select -->
+                    <ng-container *ngSwitchCase="'switch'">
+                      <nz-select [nzId]="filter.key" class="filter-switch" [(ngModel)]="filterValues[filter.key]" (ngModelChange)="onFilterChange(filter.key, $event)">
+                        <nz-option [nzValue]="true" nzLabel="Sí"></nz-option>
+                        <nz-option [nzValue]="false" nzLabel="No"></nz-option>
+                      </nz-select>
+                    </ng-container>
+                    <!-- Si no, muestra un input de texto -->
+                    <ng-container *ngSwitchDefault>
+                      <input nz-input
+                            type="text"
+                            [id]="filter.key"
+                            [placeholder]="'Filtrar ' + filter.display"
+                            (input)="onFilterChange(filter.key, $event)"
+                            class="filter-input">
+                    </ng-container>
+                  </ng-container>
+                </nz-form-control>
+                <div *ngIf="showAdvancedFilters" class="advanced-filter">
+                  <nz-select [(ngModel)]="advancedFilterOptions[filter.key]" (ngModelChange)="onAdvancedFilterChange(filter.key, $event)">
+                    <nz-option nzValue="contains" nzLabel="Contiene"></nz-option>
+                    <nz-option nzValue="equals" nzLabel="Es igual a"></nz-option>
+                    <nz-option nzValue="notContains" nzLabel="No contiene"></nz-option>
+                  </nz-select>
+                </div>
+                <button nz-button nzType="default" nzShape="circle" (click)="removeFilter(filter.key)" class="remove-filter-button">
+                  <i nz-icon nzType="minus"></i>
+                </button>
+              </div>
+            </nz-form-item>
+          </div>
+          <div class="action-buttons" *ngIf="filters.length > 0">
+            <button nz-button nzType="default" (click)="resetFilters()" class="action-button">
+              Restablecer
+            </button>
+            <button nz-button nzType="primary" (click)="advancedFilters()" class="action-button">
+              <i nz-icon nzType="setting"></i> Filtros avanzados
+            </button>
+          </div>
+        </div>
+      </nz-col>
+    </nz-row>
+  </div>
+</div>

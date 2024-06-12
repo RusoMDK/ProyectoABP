@@ -1,0 +1,157 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import './assets/AdminLTE.min.css'; */
+/* @import './assets/bootstrap.min.css'; */
+
+.login-box {
+  width: 360px;
+  margin: 7% auto;
+}
+
+.login-logo {
+  text-align: center;
+  margin: 25px;
+}
+
+.ant-card-head-title {
+  text-align: center;
+}
+
+.ant-tabs-tab-btn {
+  border: 1px solid white;
+  margin-bottom: -2px;
+}
+
+nz-sider .ant-tabs-tab .ant-tabs-tab-btn {
+  color: #b8c7ce;
+  text-shadow: 0 0 0.25px currentcolor;
+  padding: 0 2px;
+}
+
+.ant-layout-sider-zero-width-trigger {
+  display: none;
+}
+
+nz-sider .ant-card-meta-title {
+  color: #fff;
+}
+
+button.gray-2 {
+  color: white;
+  background-color: #666666;
+}
+
+.ant-card-cover {
+  padding: 10px;
+  color: white;
+  background-color: #222;
+  text-align: center;
+}
+
+li.ant-menu-submenu {
+  border-left: 3px solid transparent;
+}
+
+li.ant-menu-submenu:hover,
+li.ant-menu-submenu-open,
+ul.ant-menu-dark > div > li.ant-menu-item-selected {
+  border-left: 3px solid #fff;
+}
+
+li.ant-menu-submenu:hover > div,
+li.ant-menu-submenu:active > div {
+  color: #ffffff;
+  background: #1e282c;
+  border-left-color: #ffffff;
+}
+
+.ant-layout-sider-trigger {
+  display: none;
+}
+
+/* Estilos de los breadcrumbs */
+nz-breadcrumb-item {
+  background-color: #222;
+}
+nz-breadcrumb .ant-breadcrumb nz-breadcrumb-item {
+  padding: 0px;
+}
+
+nz-breadcrumb {
+  color: #fff;
+}
+nz-breadcrumb nz-breadcrumb-item {
+  text-decoration: none;
+  outline: none;
+  display: block;
+  float: left;
+  font-size: 16px;
+  line-height: 36px;
+  color: white;
+  padding: 0 0px 0 0px;
+  background: #32b6f8;
+  background: linear-gradient(#c3c9cd, #c3c9cd);
+  position: relative;
+}
+nz-breadcrumb nz-breadcrumb-item:first-child {
+  padding-left: 46px;
+  border-radius: 5px 0 0 5px;
+}
+
+nz-breadcrumb nz-breadcrumb-item:first-child::before {
+  left: 14px;
+}
+
+nz-breadcrumb nz-breadcrumb-item:last-child {
+  border-radius: 0 5px 5px 0;
+  padding-right: 18px;
+  background: #3c8dbc;
+}
+
+nz-breadcrumb nz-breadcrumb-item.active,
+nz-breadcrumb nz-breadcrumb-item:hover {
+  background: #c3c9cd;
+  background: linear-gradient(#3c8dbc, #3c8dbc);
+}
+
+nz-breadcrumb nz-breadcrumb-item.active::after,
+nz-breadcrumb nz-breadcrumb-item:hover::after {
+  background: #c3c9cd;
+  background: linear-gradient(135deg, #3c8dbc, #3c8dbc);
+}
+nz-breadcrumb nz-breadcrumb-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -15px;
+  width: 36px;
+  height: 36px;
+  transform: scale(0.707) rotate(45deg);
+  z-index: 1;
+  background: #666;
+  background: linear-gradient(135deg, #c3c9cd, #c3c9cd);
+  box-shadow:
+    2px -2px 0 2px rgb(255, 255, 255),
+    3px -3px 0 2px rgb(255, 255, 255);
+  border-radius: 0 5px 0 50px;
+}
+nz-breadcrumb nz-breadcrumb-item:last-child:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -15px;
+  width: 36px;
+  height: 36px;
+  transform: scale(0.707) rotate(45deg);
+  z-index: 1;
+  background: #666;
+  background: linear-gradient(135deg, #3c8dbc, #3c8dbc);
+  box-shadow:
+    2px -2px 0 2px rgb(255, 255, 255),
+    3px -3px 0 2px rgb(255, 255, 255);
+  border-radius: 0 5px 0 50px;
+}
+
+nz-sider .ant-tabs-tab .ant-tabs-tab-btn:hover {
+  color: #ffffff;
+  background-color: #385f88;
+}

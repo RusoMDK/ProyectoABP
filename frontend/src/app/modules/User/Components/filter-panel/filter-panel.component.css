@@ -1,0 +1,77 @@
+.panel {
+  border-top: 3px solid #3C8DBC;
+  position: relative;
+}
+
+.filter-panel {
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  margin-bottom: 10px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+}
+
+.filters > div {
+  margin-bottom: 10px;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+}
+
+.nz-form-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nz-form-item-control {
+  flex: 1;
+}
+
+.remove-filter-button {
+  margin-left: 10px;
+  margin-top: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #3C8DBC;
+  padding: 3px;
+  height: 20px;
+  width: 10px;
+}
+
+.remove-filter-button i {
+  color: rgb(255, 255, 255);
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.action-button {
+  margin-left: 10px;
+}
+
+.filter-switch{
+  width: 100%;
+  flex-grow: 1
+}
+
+.filter-with-advanced {
+  display: flex;
+  align-items: center; /* Alinea verticalmente los elementos */
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+  width: 100%; /* Utiliza todo el ancho disponible */
+}
+
+.advanced-filter {
+  margin-left: 10px; /* Espacio entre el filtro regular y el avanzado */
+}

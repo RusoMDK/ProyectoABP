@@ -1,0 +1,14 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
+  "recommendations": [
+    "angular.ng-template",
+    "johnpapa.angular2",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "visualstudioexptteam.vscodeintellicode",
+    "pkief.material-icon-theme",
+    "esbenp.prettier-vscode",
+    "sonarsource.sonarlint-vscode",
+    "ms-ceintl.vscode-language-pack-es"
+  ]
+}

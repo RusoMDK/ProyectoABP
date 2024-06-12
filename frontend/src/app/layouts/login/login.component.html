@@ -1,0 +1,35 @@
+<div class="form-main">
+  <div class="background-elements">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+  </div>
+  <div class="form-content">
+    <h3 class="gradient-text">Bienvenido</h3>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="input-box">
+        <input
+          type="text"
+          class="input-control"
+          formControlName="username"
+          placeholder="Nombre de Usuario"
+        />
+      </div>
+      <div class="input-box">
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          class="input-control"
+          formControlName="password"
+          placeholder="Contraseña"
+        />
+        <i class="fas" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
+      </div>
+      <div class="input-link" *ngIf="showForgotPassword">
+        <a href="#">¿Has olvidado tu contraseña?</a>
+      </div>
+      <button type="submit" class="btn" [disabled]="loading">Iniciar Sesión</button>
+      <p>¿No tienes una cuenta? <a routerLink="/register">Crear cuenta</a></p>
+    </form>
+  </div>
+</div>

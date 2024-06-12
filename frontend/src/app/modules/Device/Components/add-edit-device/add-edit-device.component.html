@@ -1,0 +1,70 @@
+<div class="body">
+  <div class="header">
+    <app-breadcrumb class="bread"></app-breadcrumb>
+  </div>
+
+  <div class="div-form">
+    <p>Crear-Actualizar Dispositivos</p>
+    <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'">
+
+      <!-- Para el elemento del nombre corto -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Nombre del Modelo<span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('name')?.invalid && (validateForm.get('name')?.dirty || validateForm.get('name')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="name" placeholder="Escriba el nombre"
+                  [class.error-input]="validateForm.get('name')?.invalid && (validateForm.get('name')?.dirty || validateForm.get('name')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('name')?.invalid && (validateForm.get('name')?.dirty || validateForm.get('name')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('name')?.errors?.['required']">Por favor introduzca el nombre!</div>
+              <div *ngIf="validateForm.get('name')?.errors?.['pattern']">El nombre solo puede contener letras, espacios y puntos.</div>
+              <div *ngIf="validateForm.get('name')?.errors?.['whitespace']">El nombre no puede estar vacío o contener solo espacios o puntos.</div>
+            </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Id del Usuario<span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('user')?.invalid && (validateForm.get('user')?.dirty || validateForm.get('user')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="user" placeholder="Escriba el Id de Usuario"
+                  [class.error-input]="validateForm.get('user')?.invalid && (validateForm.get('user')?.dirty || validateForm.get('user')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('user')?.invalid && (validateForm.get('user')?.dirty || validateForm.get('user')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('user')?.errors?.['required']">Por favor introduzca el Id!</div>
+              <div *ngIf="validateForm.get('user')?.errors?.['pattern']">El id solo puede contener numeros.</div>
+        </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="actionbuttons">
+        <nz-form-control [nzOffset]="0" [nzSpan]="12">
+
+          <button nz-button nzType="primary" (click)="resetForm($event)" [routerLink]="['/devices/list-device']" nzDanger>
+            <span nz-icon nzType="bars" nzTheme="outline"></span> Cancelar
+          </button>
+
+          <!-- Botón para guardar (crear/actualizar) sin redirección -->
+          <button nz-button class="butonstyle" (click)="submitForm(false)">
+            <i nz-icon [nzType]="isEditing ? 'save' : 'plus-circle'"></i>
+            <span *ngIf="isEditing" nz-icon nzType="bars" nzTheme="outline"></span>
+            {{ isEditing ? 'Actualizar' : 'Crear y agregar otro' }}
+          </button>
+
+          <!-- Botón para guardar (crear/actualizar) y luego redirigir al listado -->
+          <button nz-button class="butonstyle" (click)="submitForm(true)">
+            <i nz-icon nzType="save"></i>
+            <span nz-icon nzType="bars" nzTheme="outline"></span>
+            {{ isEditing ? 'Actualizar y regresar al listado' : 'Crear y regresar al listado' }}
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
+

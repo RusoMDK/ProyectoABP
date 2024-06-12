@@ -1,0 +1,119 @@
+<div class="body">
+  <div class="header">
+    <app-breadcrumb class="bread"></app-breadcrumb>
+  </div>
+
+  <div class="div-form">
+    <p>Crear-Actualizar Escenario</p>
+    <form nz-form [formGroup]="validateForm" [nzLayout]="'vertical'">
+
+     
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Nombre <span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('name')?.invalid && (validateForm.get('name')?.dirty || validateForm.get('name')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="name" placeholder="Escriba el nombre"
+                  [class.error-input]="validateForm.get('name')?.invalid && (validateForm.get('name')?.dirty || validateForm.get('name')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('name')?.invalid && (validateForm.get('name')?.dirty || validateForm.get('name')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('name')?.errors?.['required']">Por favor introduzca el nombre!</div>
+              <div *ngIf="validateForm.get('name')?.errors?.['pattern']">El nombre solo puede contener letras, espacios y puntos.</div>
+            </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Nombre del Usuario<span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('username')?.invalid && (validateForm.get('username')?.dirty || validateForm.get('username')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="username" placeholder="Escriba el nombre de usuario"
+                  [class.error-input]="validateForm.get('username')?.invalid && (validateForm.get('username')?.dirty || validateForm.get('username')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('username')?.invalid && (validateForm.get('username')?.dirty || validateForm.get('username')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('username')?.errors?.['required']">Por favor introduzca el nombre de usuario</div>
+              <div *ngIf="validateForm.get('username')?.errors?.['pattern']">El nombre solo puede contener letras, espacios y puntos.</div>
+            </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Correo<span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('email')?.invalid && (validateForm.get('email')?.dirty || validateForm.get('email')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="email" placeholder="Escriba el Correo"
+                  [class.error-input]="validateForm.get('email')?.invalid && (validateForm.get('email')?.dirty || validateForm.get('email')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('email')?.invalid && (validateForm.get('email')?.dirty || validateForm.get('email')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('email')?.errors?.['required']">Por favor introduzca el Correo!</div>
+              <div *ngIf="validateForm.get('email')?.errors?.['pattern']">El correo solo contiene letras</div>
+            </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Contraseña<span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('password')?.invalid && (validateForm.get('password')?.dirty || validateForm.get('email')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="password" placeholder="Escriba la contraseña "
+                  [class.error-input]="validateForm.get('password')?.invalid && (validateForm.get('password')?.dirty || validateForm.get('password')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('password')?.invalid && (validateForm.get('password')?.dirty || validateForm.get('password')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('password')?.errors?.['required']">Por favor introduzca la contraseña!</div>
+              <div *ngIf="validateForm.get('password')?.errors?.['pattern']">El correo solo contiene letras</div>
+            </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7">Id del Rol<span class="required-asterisk">*</span></nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback [nzValidateStatus]="validateForm.get('role')?.invalid && (validateForm.get('role')?.dirty || validateForm.get('role')?.touched) ? 'error' : ''">
+          <div class="input-container">
+            <input nz-input formControlName="role" placeholder="Escriba el Id de Rol"
+                  [class.error-input]="validateForm.get('role')?.invalid && (validateForm.get('role')?.dirty || validateForm.get('role')?.touched)" />
+          </div>
+          <ng-container *ngIf="validateForm.get('role')?.invalid && (validateForm.get('role')?.dirty || validateForm.get('role')?.touched)">
+            <div class="error-message">
+              <div *ngIf="validateForm.get('role')?.errors?.['required']">Por favor introduzca el Id!</div>
+              <div *ngIf="validateForm.get('role')?.errors?.['pattern']">El id solo puede contener numeros.</div>
+        </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="actionbuttons">
+        <nz-form-control [nzOffset]="0" [nzSpan]="12">
+
+          <button nz-button nzType="primary" (click)="resetForm($event)" [routerLink]="['/user/list-user']" nzDanger>
+            <span nz-icon nzType="bars" nzTheme="outline"></span> Cancelar
+          </button>
+
+          <!-- Botón para guardar (crear/actualizar) sin redirección -->
+          <button nz-button class="butonstyle" (click)="submitForm(false)">
+            <i nz-icon [nzType]="isEditing ? 'save' : 'plus-circle'"></i>
+            <span *ngIf="isEditing" nz-icon nzType="bars" nzTheme="outline"></span>
+            {{ isEditing ? 'Actualizar' : 'Crear y agregar otro' }}
+          </button>
+
+          <!-- Botón para guardar (crear/actualizar) y luego redirigir al listado -->
+          <button nz-button class="butonstyle" (click)="submitForm(true)">
+            <i nz-icon nzType="save"></i>
+            <span nz-icon nzType="bars" nzTheme="outline"></span>
+            {{ isEditing ? 'Actualizar y regresar al listado' : 'Crear y regresar al listado' }}
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
+

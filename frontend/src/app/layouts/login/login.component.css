@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&family=Nunito+Sans:wght@200&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77); /* Fondo degradado */
+    color: #E6E6E6; /* Color claro para el texto */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    height: 100vh; /* Asegurar que el degradado cubre toda la pantalla */
+    margin: 0; /* Quitar márgenes del body */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.background-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(to right, #32b6f8, #c3c9cd);
+    opacity: 0.3;
+}
+
+.circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    left: -50px;
+}
+
+.circle-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -75px;
+    right: -75px;
+}
+
+.circle-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.circle-4 {
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 10%;
+}
+
+.form-content {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px 50px;
+    background: rgba(13, 17, 23, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 2;
+}
+
+.form-content h3 {
+    font-size: 28px;
+    text-align: center;
+    color: #E6E6E6;
+}
+
+.form-content .input-box {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-content .input-control {
+    display: block;
+    width: 100%;
+    height: 45px;
+    background-color: rgba(13, 17, 23, 0.6);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    color: #E6E6E6;
+    font-size: 16px;
+    padding-right: 40px;
+}
+
+.form-content .input-control::placeholder {
+    color: #E6E6E6;
+}
+
+.form-content .input-control:focus {
+    outline: none;
+}
+
+.form-content .input-box i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #32b6f8;
+    cursor: pointer;
+}
+
+.form-content .btn {
+    width: 100%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+    cursor: pointer;
+    border-radius: 25px;
+    background: linear-gradient(to right, #32b6f8, #c3c9cd);
+    border: none;
+    color: #E6E6E6;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-content .input-link {
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.form-content a {
+    color: #32b6f8;
+    text-decoration: none;
+}
+
+.form-content p {
+    text-align: center;
+    color: #E6E6E6;
+}
+
+.form-content p a {
+    color: #32b6f8;
+    text-decoration: none;
+}

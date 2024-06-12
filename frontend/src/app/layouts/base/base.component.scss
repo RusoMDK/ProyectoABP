@@ -1,0 +1,18 @@
+nz-sider {
+  height: auto;
+}
+@media (max-width: 900px) {
+  app-header {
+    height: 120px;
+  }
+  .ant-layout-sider-trigger {
+    position: relative;
+    z-index: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  app-header {
+    height: 100px;
+  }
+}

@@ -1,0 +1,44 @@
+<ngx-charts-line-chart
+  [view]="[700, 400]"
+  [scheme]="colorScheme"
+  [results]="lineChartData"
+  [legend]="true"
+  [xAxis]="true"
+  [yAxis]="true"
+  [autoScale]="true">
+</ngx-charts-line-chart>
+
+<ngx-charts-area-chart
+  [view]="[700, 400]"
+  [scheme]="colorScheme"
+  [results]="areaChartData"
+  [legend]="true"
+  [xAxis]="true"
+  [yAxis]="true"
+  [autoScale]="true">
+</ngx-charts-area-chart>
+
+<ngx-charts-bar-vertical
+  [view]="[700, 400]"
+  [scheme]="colorScheme"
+  [results]="barChartData"
+  [gradient]="true"
+  [xAxis]="true"
+  [yAxis]="true"
+  [legend]="true"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  [xAxisLabel]="'Time'"
+  [yAxisLabel]="'Value'">
+</ngx-charts-bar-vertical>
+
+<ngx-charts-gauge
+[view]="[400, 400]"
+[scheme]="colorScheme"
+[results]="gaugeChartData"
+[min]="0"
+[max]="100"
+[angleSpan]="240"
+[startAngle]="-120"
+[units]="'%'">
+</ngx-charts-gauge>

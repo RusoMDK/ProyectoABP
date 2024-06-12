@@ -1,0 +1,68 @@
+.body{
+    padding: 10px;
+  }
+  .header {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    background-color: #F0F2F5; /* Fondo gris claro */
+    padding: 10px; /* Espaciado interior */
+    box-shadow: 0.5px 0.5px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .content {
+    background-color: #F0F2F5;
+    border-top: 4px solid #3C8DBC;
+    border-radius: 3px;
+    box-shadow:  0.5px 0.5px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+  }
+  
+  .contente {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .styles-list {
+    width: 50%; /* Ajusta esto según tus necesidades */
+    margin-right: 20px; /* Espacio entre los elementos */
+  }
+  
+  .card {
+    flex-grow: 1; /* La tarjeta se expandirá para ocupar el espacio restante */
+  }
+  .first-column {
+    width: 20%;
+    font-weight: bold; /* Letras en negrita */
+    font-size: 1.2em; /* Tamaño de letra más grande */
+  }
+  
+  .dropdownitem{
+    padding: 0;
+    color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .required-yes {
+    background-color: #3F9E3F;
+    display: inline-block;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 3px;
+  
+  }
+  
+  .required-no {
+    background-color:  #FF4D4F;
+    display: inline-block;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 3px;
+  }
+  

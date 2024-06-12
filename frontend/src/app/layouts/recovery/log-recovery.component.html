@@ -1,0 +1,28 @@
+<div nzAlign="top" class="login-box">
+  <div nz-col class="login-logo">
+    <img nz-image src="../../../assets/sigies.png" alt="Logo de Xauce SIGIES" />
+  </div>
+  <nz-card nz-col nzTitle="Recuperar contraseña">
+    <!-- [formGroup]=""  (ngSubmit)="" -->
+    <form nz-form>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="">
+          <nz-input-group nzSuffixIcon="mail">
+            <input
+              type="text"
+              nz-input
+              id="username"
+              value=""
+              required="required"
+              placeholder="User o correo electrónico"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row style="justify-content: space-between">
+        <button nz-button [nzType]="'default'">Cancelar</button>
+        <button nz-button [nzType]="'primary'">Restablecer contraseña</button>
+      </div>
+    </form>
+  </nz-card>
+</div>
