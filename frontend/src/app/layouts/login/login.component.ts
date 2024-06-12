@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   error = '';
 
   passwordVisible = false;
-  password?: string;
+  showForgotPassword = false;
 
   aplicationMessages = ApplicatioMessages;
 
@@ -59,6 +59,31 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
           this.router.navigate([this.returnUrl]);
-    
+
+          // stop here if form is invalid
+          if (this.loginForm.invalid) {
+            return;
+          }
+        
+          this.loading = true;
+          const credentials = {
+            username: this.f['username'].value,
+            password: this.f['password'].value
+          };
+        
+          this.authenticationService.login(credentials.username,credentials.password)
+            .pipe(first())
+            .subscribe(
+              () => {
+                this.router.navigate([this.returnUrl]);
+              },
+              error => {
+                this.error = error;
+                this.loading = false;
+              });
+        }
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
   }
 }

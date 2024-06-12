@@ -23,7 +23,6 @@ export class AuthService {
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
-
     const user = await this.userService.findOneUsername(username);
     const usuario = await bcrypt.compare(pass, user.password);
     if (user && usuario) {
@@ -34,7 +33,6 @@ export class AuthService {
   }
 
   async login(user: any) {
-    console.log(user);
     const usuario = await this.userService.findOneUsername(user.username);
     console.log(usuario.role.name);
     const secret = this.configService.get<string>('JWT_SECRET');

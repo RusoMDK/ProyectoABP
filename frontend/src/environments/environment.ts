@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/api/v1/',
-  loginUrl: 'http://localhost:8000/',
+  apiUrl: 'http://localhost:3000',
+  loginUrl: 'http://localhost:3000/auth/login',
   sentryUrl: '',
   // 'http://65ba5ead87524c59bb583bc2a3cdd9c6@sentry.akademos.prod.uci.cu/3',
   openmap_server: 'http://map.akademos.prod.uci.cu/',
