@@ -10,6 +10,7 @@ import { MenuLeftComponent } from '../layouts/base/menu-left/menu-left.component
 import { IndexViewComponent } from 'src/app/layouts/index-view/index-view.component';
 import { LoginComponent } from 'src/app/layouts/login/login.component';
 import { LogRecoveryComponent } from 'src/app/layouts/recovery/log-recovery.component';
+import { RegisterComponent } from '../layouts/register/register.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,14 @@ import { LogRecoveryComponent } from 'src/app/layouts/recovery/log-recovery.comp
     IndexViewComponent,
     LoginComponent,
     LogRecoveryComponent,
+    RegisterComponent,
   ],
-  imports: [CommonModule, BaseRoutingModule, CoreModule],
+  imports: [
+    CommonModule, 
+    BaseRoutingModule, 
+    CoreModule
+  ],
+  
   providers: [],
   exports: [
     BaseComponent,
@@ -31,6 +38,7 @@ import { LogRecoveryComponent } from 'src/app/layouts/recovery/log-recovery.comp
     IndexViewComponent,
     LoginComponent,
     LogRecoveryComponent,
+    RegisterComponent, 
   ],
 })
 export class BaseModule {}

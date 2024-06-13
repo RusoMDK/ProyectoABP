@@ -8,9 +8,11 @@ import { ApplicatioMessages } from '../../core/utils/messages/applicationMessage
 import { LoadingSpinnerService } from 'src/app/core/spinner/spinner.service';
 import { first } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -45,12 +47,10 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
     });
 
-    this.translate.addLangs(this.translations.getSystemLanguages());
-    this.translate.setDefaultLang(this.translations.getProfileLanguage());
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl =
-      this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    this.translate.addLangs(['en', 'es']);
+    this.translate.setDefaultLang('es');
+    const browserLang = this.translate.getBrowserLang() || 'es';
+    this.translate.use(browserLang.match(/en|es/) ? browserLang : 'es');
   }
 
   // convenience getter for easy access to form fields
@@ -58,30 +58,29 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+  
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+  
+    this.loading = true;
+    const credentials = {
+      username: this.f['username'].value,
+      password: this.f['password'].value
+    };
+  
+    this.authenticationService.login(credentials)
+      .pipe(first())
+      .subscribe(
+        () => {
           this.router.navigate([this.returnUrl]);
-
-          // stop here if form is invalid
-          if (this.loginForm.invalid) {
-            return;
-          }
-        
-          this.loading = true;
-          const credentials = {
-            username: this.f['username'].value,
-            password: this.f['password'].value
-          };
-        
-          this.authenticationService.login(credentials.username,credentials.password)
-            .pipe(first())
-            .subscribe(
-              () => {
-                this.router.navigate([this.returnUrl]);
-              },
-              error => {
-                this.error = error;
-                this.loading = false;
-              });
-        }
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
+  }
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;

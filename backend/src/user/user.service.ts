@@ -10,39 +10,43 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userService: Repository<User>,
+    private readonly userRepository: Repository<User>, // Ajuste del nombre del repositorio a `userRepository`
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashed = await bcrypt.hash(createUserDto.password, salt);
-    const user = this.userService.create({
+    const user = this.userRepository.create({
       ...createUserDto,
       password: hashed,
     });
-    return this.userService.save(user);
+    return this.userRepository.save(user);
   }
 
-  findAll() {
-    return this.userService.find({ relations: ['role'] });
+  findAll(): Promise<User[]> {
+    return this.userRepository.find({ relations: ['role'] });
   }
 
   async findOneUsername(username: string): Promise<User> {
-    return this.userService.findOne({
+    return this.userRepository.findOne({
       where: { username },
       relations: ['role'],
     });
   }
 
-  findOne(id: number) {
-    return this.userService.findOneBy({ id });
+  findOne(id: number): Promise<User> {
+    return this.userRepository.findOne({
+      where: { id },
+      relations: ['role'],
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    await this.userRepository.update(id, updateUserDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return this.userService.delete(id);
+  async remove(id: number): Promise<void> {
+    await this.userRepository.delete(id);
   }
 }

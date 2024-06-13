@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { environment } from '../../../environments/environment';
 import { PermissionsService } from '../_services/permissions.service';
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { Tokens } from '../_models/tokens';
+import { LoginCredentials } from '../_models/login-credentials';
+import { RegisterData } from '../_models/register-data';
+
+interface LoginResponse {
+  user: User;
+  token: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private baseUrl = environment.apiUrl;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
 
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
@@ -24,205 +32,148 @@ export class AuthenticationService {
     private http: HttpClient,
     private permissions: PermissionsService,
   ) {
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(localStorage.getItem('userData') as string),
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      JSON.parse(localStorage.getItem('userData') as string)
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
+  public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string): Observable<boolean> {
-    return this.http
-      .post<any>(`${environment.loginUrl}`, { username, password })
-      .pipe(
-        tap((tokens) => {
-          this.doLoginUser(username, tokens as unknown as Tokens);
-          this.startRefreshTokenTimer();
-        }),
-        /*,
-        mapTo(true),
-        catchError(error => {
-          return of(false);
-        })*/
-      );
+  register(user: RegisterData): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/auth/register`, user).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  logout() {
+  login(credentials: LoginCredentials): Observable<LoginResponse> {
+    console.log('Llamando al endpoint de login con datos:', credentials);
+    return this.http.post<LoginResponse>(`${environment.loginUrl}`, credentials).pipe(
+      tap(response => {
+        console.log('Respuesta del login:', response);
+        const tokens: Tokens = {
+          access: response.token,
+          refresh: '' // Si no hay refresh token, puedes dejarlo vacío
+        };
+        this.doLoginUser(response.user.username, tokens);
+        this.startRefreshTokenTimer();
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  logout(): void {
     this.doLogoutUser();
     this.stopRefreshTokenTimer();
-    /*
-    return this.http.post<any>(`${environment.loginUrl}/logout`, {
-      'refreshToken': this.getRefreshToken()
-    }).pipe(
-      tap(() => {
-        this.doLogoutUser()
-      }),
-      mapTo(true),
-      catchError(error => {
-        alert(error.error);
-        return of(false);
-      }));*/
   }
 
-  isLoggedIn() {
+  isLoggedIn(): boolean {
     return !!this.getJwtToken();
   }
 
-  refreshToken() {
-    return this.http
-      .post<any>(`${environment.loginUrl}`, {
-        refresh: this.getRefreshToken(),
-      })
-      .pipe(
-        tap((tokens: Tokens) => {
-          console.log('refresh token');
-          // console.log('Antes de salvar el token')
-          // console.log(tokens)
-          this.startRefreshTokenTimer();
-          this.storeJwtToken(tokens.access);
-        }),
-      );
+  refreshToken(): Observable<Tokens> {
+    return this.http.post<Tokens>(`${environment.apiUrl}/auth/refresh`, {
+      refresh: this.getRefreshToken(),
+    }).pipe(
+      tap((tokens: Tokens) => {
+        console.log('refresh token');
+        this.startRefreshTokenTimer();
+        this.storeJwtToken(tokens.access);
+      }),
+      catchError(this.handleError)
+    );
   }
 
-  getJwtToken() {
-    return localStorage.getItem(this.JWT_TOKEN) as string;
+  getJwtToken(): string | null {
+    return localStorage.getItem(this.JWT_TOKEN);
   }
 
-  private doLoginUser(username: string, tokens: Tokens) {
+  private doLoginUser(username: string, tokens: Tokens): void {
     this.loggedUser = username;
     this.storeTokens(tokens);
   }
 
-  private doLogoutUser() {
+  private doLogoutUser(): void {
     this.loggedUser = null;
     this.removeTokens();
     this.router.navigate(['/login']);
   }
 
-  private getRefreshToken() {
-    return localStorage.getItem('REFRESH_TOKEN');
+  private getRefreshToken(): string | null {
+    return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
-  private storeJwtToken(jwt: string) {
+  private storeJwtToken(jwt: string): void {
     localStorage.setItem(this.JWT_TOKEN, jwt);
 
-    const user_data = jwt_decode.default(jwt) as any;
+    const user_data = jwt_decode(jwt) as User;
     localStorage.setItem('userData', JSON.stringify(user_data));
     this.currentUserSubject.next(user_data);
 
-    // add user permissions
+    const modules = user_data.modules ? this.parsePermissions(user_data.modules) : [];
+    const permissions = user_data.permissions ? this.parsePermissions(user_data.permissions) : [];
+    
     this.permissions.setPermissions(
-      JSON.parse(user_data.modules).concat(JSON.parse(user_data.permissions)),
+      modules.concat(permissions)
     );
-
-    // console.log('Nuevo token salvado')
   }
 
-  private storeTokens(tokens: Tokens) {
+  private storeTokens(tokens: Tokens): void {
     localStorage.setItem(this.JWT_TOKEN, tokens.access);
     localStorage.setItem(this.REFRESH_TOKEN, tokens.refresh);
 
-    const user_data = jwt_decode.default(tokens.access) as any;
+    const user_data = jwt_decode(tokens.access) as User;
     localStorage.setItem('userData', JSON.stringify(user_data));
 
     this.currentUserSubject.next(user_data);
+
+    const modules = user_data.modules ? this.parsePermissions(user_data.modules) : [];
+    const permissions = user_data.permissions ? this.parsePermissions(user_data.permissions) : [];
+
     this.permissions.setPermissions(
-      JSON.parse(user_data.modules).concat(JSON.parse(user_data.permissions)),
+      modules.concat(permissions)
     );
   }
 
-  private removeTokens() {
+  private removeTokens(): void {
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem(this.REFRESH_TOKEN);
 
     localStorage.removeItem('userToken');
     localStorage.removeItem('userData');
-    this.currentUserSubject.next;
+    this.currentUserSubject.next(null);
 
-    // remove user permissions
     this.permissions.flushPermissions();
   }
 
-  private startRefreshTokenTimer() {
-    // parse json object from base64 encoded jwt token
-    const jwtToken = JSON.parse(atob(this.getJwtToken().split('.')[1]));
-    // set a timeout to refresh the token a minute before it expires
+  private startRefreshTokenTimer(): void {
+    const jwtToken = JSON.parse(atob(this.getJwtToken()!.split('.')[1]));
     const expires = new Date(jwtToken.exp * 1000);
     const timeout = expires.getTime() - Date.now() - 60 * 1000;
     this.refreshTokenTimeout = setTimeout(
       () => this.refreshToken().subscribe(),
-      timeout,
+      timeout
     ) as unknown as number;
   }
 
-  private stopRefreshTokenTimer() {
+  private stopRefreshTokenTimer(): void {
     clearTimeout(this.refreshTokenTimeout);
   }
 
-  /* login2(username: string, password: string) {
-     return this.http.post<any>(`${environment.loginUrl}api/token/`, {username, password}) //
-       .pipe(map(user => {
-         // console.log(user)
-         // login successful if there's a jwt token in the response
-         if (user && user.access) {
-           // store user details and jwt token in local storage to keep user logged in between page refreshes
-           sessionStorage.setItem('userToken', JSON.stringify(user));
-
-           // var decoded = jwt_decode(user.access);
-           // console.log("USER-ID: " + decoded['user_id']);
-           let user_data = jwt_decode(user.access)
-           sessionStorage.setItem('userData', JSON.stringify(user_data));
-           // user.name = user_data.name
-           // console.log(user_data)
-
-           this.currentUserSubject.next(user);
-
-           // add user permissions
-           this.permissions.setPermissions();
-         }
-
-         return user;
-       }));
-   }*/
-
-  /*refresh(req: HttpRequest<any>, next: HttpHandler) {
-    const currentUser = this.authenticationService.currentUserValue;
-    const refresh = currentUser.refresh;
-
-    this.http.post<any>(`${environment.loginUrl}api/token/refresh/`, {refresh}) //
-      .pipe(map(user => {
-        // console.log(user)
-        // login successful if there's a jwt token in the response
-        if (user && user.access) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          const userStore: User = JSON.parse(sessionStorage.getItem("userToken"));
-          userStore.access = user.access;
-          sessionStorage.setItem("userToken", JSON.stringify(userStore));
-          // console.log(JSON.parse(sessionStorage.getItem("userToken"))["refresh"]);
-
-          // console.log(userStore.access);
-
-          this.currentUserSubject.next(userStore);
-
-          // add user permissions
-          this.permissions.setPermissions();
-
-        }
-
-        return user;
-      }));
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('Ocurrió un error:', error);
+    return throwError('Algo salió mal; por favor, inténtelo de nuevo más tarde.');
   }
-*/
-  /*logout() {
-    // remove user from local storage to log user out
-    sessionStorage.removeItem('userToken');
-    sessionStorage.removeItem('userData');
-    this.currentUserSubject.next(null);
 
-    // remove user permissions
-    this.permissions.flushPermissions();
-  }*/
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private parsePermissions(data: string): any[] {
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      console.error('Error parsing permissions:', error);
+      return [];
+    }
+  }
 }

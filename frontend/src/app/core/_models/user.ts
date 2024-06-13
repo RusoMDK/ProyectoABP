@@ -1,7 +1,10 @@
-export class User {
-  id!: number;
-  username!: string;
-  token?: string;
-  is_disable!: boolean;
-  name!: string;
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  role: {
+    name: string;
+  };
+  modules: string; // O el tipo adecuado si no es string
+  permissions: string; // O el tipo adecuado si no es string
 }

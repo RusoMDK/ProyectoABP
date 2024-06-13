@@ -13,7 +13,7 @@ export class BaseComponent {
   isCollapsedRight = false;
   name = '';
 
-  currentUser!: User;
+  currentUser!: User | null;
 
   constructor(
     private router: Router,

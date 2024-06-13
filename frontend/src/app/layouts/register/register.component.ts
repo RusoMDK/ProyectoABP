@@ -1,82 +1,86 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthenticationService } from '../../core/_services/authentication.service';
 
 @Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
-    registerForm!: FormGroup;
-    loading = false;
-    submitted = false;
-    error = '';
+export class RegisterComponent {
+  registerForm: FormGroup;
+  loading = false;
+  submitted = false;
+  error = '';
 
-    passwordVisible = false;
+  passwordVisible: boolean = false;
+  confirmPasswordVisible: boolean = false;
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private authenticationService: AuthenticationService,
-    ) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthenticationService
+  ) {
+    this.registerForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    }, {
+      validator: this.mustMatch('password', 'confirmPassword')
+    });
+  }
 
-    ngOnInit() {
-        this.registerForm = this.formBuilder.group(
-            {
-                name: ['', Validators.required],
-                username: ['', Validators.required],
-                email: ['', [Validators.required, Validators.email]],
-                password: ['', [Validators.required, Validators.minLength(6)]],
-                confirmPassword: ['', Validators.required],
-            },
-            { validator: this.matchingPasswords('password', 'confirmPassword') },
-        );
+  // getter for easy access to form fields
+  get f() { return this.registerForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
     }
 
-    get f() {
-        return this.registerForm.controls;
-    }
+    this.loading = true;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...registerData } = this.registerForm.value;
+    this.authenticationService.register(registerData)
+      .subscribe(
+        () => {
+          console.log('Registro exitoso');
+          this.loading = false;
+          // redirigir al login u otra página
+        },
+        error => {
+          console.error('Error en el registro', error);
+          this.error = error;
+          this.loading = false;
+        });
+  }
 
-    onSubmit() {
-        this.submitted = true;
-        console.log('Formulario enviado');
+  mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
 
-        // stop here if form is invalid
-        if (this.registerForm.invalid) {
-            console.log('Formulario inválido', this.registerForm.errors);
-            return;
-        }
+      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+        return;
+      }
 
-        this.loading = true;
-        console.log('Datos del formulario', this.registerForm.value);
-        this.authenticationService.register(this.registerForm.value).subscribe(
-            (data) => {
-                console.log('Registro exitoso', data);
-                this.router.navigate(['/login']);
-            },
-            (error) => {
-                console.log('Error en el registro', error);
-                this.error = error;
-                this.loading = false;
-            },
-        );
-    }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
 
-    matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
-        return (group: FormGroup) => {
-            const passwordInput = group.controls[passwordKey];
-            const confirmPasswordInput = group.controls[confirmPasswordKey];
-            if (passwordInput.value !== confirmPasswordInput.value) {
-                return confirmPasswordInput.setErrors({ notEquivalent: true });
-            } else {
-                return confirmPasswordInput.setErrors(null);
-            }
-        };
-    }
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
 
-    togglePasswordVisibility() {
-        this.passwordVisible = !this.passwordVisible;
-    }
+  toggleConfirmPasswordVisibility() {
+    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  }
 }

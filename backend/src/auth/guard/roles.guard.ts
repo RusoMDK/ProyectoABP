@@ -11,6 +11,13 @@ import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 import { ROLES_KEY } from 'src/function/GlobalFunctions';
 
+interface JwtPayload {
+  id: number;
+  name: string;
+  role: Role;
+  // otros campos si los tienes
+}
+
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
@@ -25,9 +32,11 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+
     if (!requiredRoles) {
       return true;
     }
+
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
@@ -42,14 +51,14 @@ export class RolesGuard implements CanActivate {
 
     try {
       const secret = this.configService.get<string>('JWT_SECRET');
-      const decoded = jwt.verify(token, secret) as any;
+      const decoded = jwt.verify(token, secret) as JwtPayload;
       request.user = decoded;
 
-      if (!decoded.roles) {
-        throw new UnauthorizedException('Roles not found in token');
+      if (!decoded.role) {
+        throw new UnauthorizedException('Role not found in token');
       }
 
-      return requiredRoles.some((role) => decoded.role.includes(role));
+      return requiredRoles.includes(decoded.role);
     } catch (err) {
       throw new UnauthorizedException('Invalid token');
     }

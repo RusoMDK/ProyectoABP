@@ -18,6 +18,7 @@ import { Data_Sensor } from './data-sensor/entities/data-sensor.entity';
 import { Role } from './roles/entities/role.entity';
 import { MQTTModule } from './mqtt/mqtt.module';
 import { JwtModule } from '@nestjs/jwt';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -46,9 +47,10 @@ import { JwtModule } from '@nestjs/jwt';
     DataSensorModule,
     RolesModule,
     MQTTModule,
+    AdminModule,
     JwtModule.register({
       global: true,
-    })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,23 +1,40 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { Request as HttpRequest } from 'express';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthService } from './providers/auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { Public } from 'src/function/GlobalFunctions';
+import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Public()
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Req() req: HttpRequest) {
-    return this.authService.login(req.user);
+  @Post('register')
+  async register(@Body() createUserDto: CreateUserDto) {
+    await this.authService.register(createUserDto);
   }
 
-  @Post('register')
-  async register(createUserDto: CreateUserDto) {
-    return this.authService.register(createUserDto);
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  async login(@Body() loginDto: LoginDto) {
+    try {
+      const data = await this.authService.login(loginDto);
+      return {
+        user: data.user,
+        token: data.token,
+      };
+    } catch (error) {
+      console.error('Error en el login:', error);
+      throw new HttpException(
+        'INTERNAL_SERVER_ERROR',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
