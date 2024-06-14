@@ -1,77 +1,81 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../../core/_services/authentication.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
-  registerForm: FormGroup;
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
   loading = false;
   submitted = false;
   error = '';
 
-  passwordVisible: boolean = false;
-  confirmPasswordVisible: boolean = false;
+  passwordVisible = false;
+  confirmPasswordVisible = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private translate: TranslateService
   ) {
+    this.translate.addLangs(['en', 'es']);
+    this.translate.setDefaultLang('es');
+    const browserLang = this.translate.getBrowserLang() || 'es';
+    this.translate.use(browserLang.match(/en|es/) ? browserLang : 'es');
+  }
+
+  ngOnInit() {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
     }, {
-      validator: this.mustMatch('password', 'confirmPassword')
+      validator: this.matchingPasswords('password', 'confirmPassword')
     });
   }
 
-  // getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  get f() {
+    return this.registerForm.controls;
+  }
 
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
 
     this.loading = true;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { confirmPassword, ...registerData } = this.registerForm.value;
-    this.authenticationService.register(registerData)
-      .subscribe(
-        () => {
-          console.log('Registro exitoso');
-          this.loading = false;
-          // redirigir al login u otra página
-        },
-        error => {
-          console.error('Error en el registro', error);
-          this.error = error;
-          this.loading = false;
-        });
+    console.log('Datos del formulario', this.registerForm.value);
+    this.authenticationService.register(this.registerForm.value).subscribe(
+      data => {
+        console.log('Registro exitoso', data);
+        this.router.navigate(['/login']);
+      },
+      error => {
+        console.log('Error en el registro', error);
+        this.error = error;
+        this.loading = false;
+      }
+    );
   }
 
-  mustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-        return;
-      }
-
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
+  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
+    return (group: FormGroup) => {
+      const passwordInput = group.controls[passwordKey];
+      const confirmPasswordInput = group.controls[confirmPasswordKey];
+      if (passwordInput.value !== confirmPasswordInput.value) {
+        return confirmPasswordInput.setErrors({ notEquivalent: true });
       } else {
-        matchingControl.setErrors(null);
+        return confirmPasswordInput.setErrors(null);
       }
     };
   }

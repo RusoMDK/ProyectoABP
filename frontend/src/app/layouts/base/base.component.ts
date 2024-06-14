@@ -24,6 +24,13 @@ export class BaseComponent {
     );
   }
 
+  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
+  ngOnInit(): void {
+    this.authenticationService.currentUser.subscribe(
+      (x: User | null) => this.currentUser = x
+    );
+  }
+
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
