@@ -1,0 +1,18 @@
+{
+    "login": {
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "rememberMe": "Recuérdame",
+        "loginButton": "Iniciar sesión",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "createAccount": "Crear cuenta"
+    },
+    "register": {
+        "name": "Nombre",
+        "username": "Nombre de usuario",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "registerButton": "Registrar"
+    }
+}

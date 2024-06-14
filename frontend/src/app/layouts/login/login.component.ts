@@ -7,7 +7,7 @@ import { TranslationsService } from '../../core/_services/translations.service';
 import { ApplicatioMessages } from '../../core/utils/messages/applicationMessages';
 import { LoadingSpinnerService } from 'src/app/core/spinner/spinner.service';
 import { first } from 'rxjs/operators';
-
+import { LoginCredentials } from 'src/app/core/_models/login-credentials';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
     private translations: TranslationsService,
     private loadingSpinner: LoadingSpinnerService,
   ) {
-    // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
@@ -43,7 +42,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      usernameOrEmail: ['', Validators.required],
       password: ['', Validators.required],
     });
 
@@ -51,36 +50,42 @@ export class LoginComponent implements OnInit {
     this.translate.setDefaultLang('es');
     const browserLang = this.translate.getBrowserLang() || 'es';
     this.translate.use(browserLang.match(/en|es/) ? browserLang : 'es');
+
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
     this.submitted = true;
   
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
   
+    console.log('Login form submitted'); // Debugging
+  
     this.loading = true;
-    const credentials = {
-      username: this.f['username'].value,
+    const credentials: LoginCredentials = {
+      usernameOrEmail: this.f['usernameOrEmail'].value,
       password: this.f['password'].value
     };
   
     this.authenticationService.login(credentials)
       .pipe(first())
       .subscribe(
-        () => {
+        response => {
+          console.log('Login successful', response); // Debugging
           this.router.navigate([this.returnUrl]);
         },
         error => {
+          console.error('Login failed', error); // Debugging
           this.error = error;
           this.loading = false;
         });
   }
+  
+  
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;

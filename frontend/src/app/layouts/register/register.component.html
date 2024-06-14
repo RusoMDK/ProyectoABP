@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="form-main">
   <div class="background-elements">
@@ -7,14 +8,14 @@
     <div class="circle circle-4"></div>
   </div>
   <div class="form-content">
-    <h3 class="gradient-text">Crear Cuenta</h3>
+    <h3 class="gradient-text">{{ 'register.registerButton' | translate }}</h3>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="input-box">
         <input
           type="text"
           class="input-control"
           formControlName="name"
-          placeholder="Nombre"
+          placeholder="{{ 'register.name' | translate }}"
         />
       </div>
       <div class="input-box">
@@ -22,7 +23,7 @@
           type="text"
           class="input-control"
           formControlName="username"
-          placeholder="Nombre de Usuario"
+          placeholder="{{ 'register.username' | translate }}"
         />
       </div>
       <div class="input-box">
@@ -30,7 +31,7 @@
           type="email"
           class="input-control"
           formControlName="email"
-          placeholder="Correo Electrónico"
+          placeholder="{{ 'register.email' | translate }}"
         />
       </div>
       <div class="input-box">
@@ -38,7 +39,7 @@
           [type]="passwordVisible ? 'text' : 'password'"
           class="input-control"
           formControlName="password"
-          placeholder="Contraseña"
+          placeholder="{{ 'register.password' | translate }}"
         />
         <i class="fas" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
       </div>
@@ -47,12 +48,12 @@
           [type]="confirmPasswordVisible ? 'text' : 'password'"
           class="input-control"
           formControlName="confirmPassword"
-          placeholder="Confirmar Contraseña"
+          placeholder="{{ 'register.confirmPassword' | translate }}"
         />
         <i class="fas" [ngClass]="confirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleConfirmPasswordVisibility()"></i>
       </div>
-      <button type="submit" class="btn" [disabled]="loading">Crear Cuenta</button>
-      <p>¿Ya tienes una cuenta? <a routerLink="/login">Iniciar Sesión</a></p>
+      <button type="submit" class="btn" [disabled]="loading">{{ 'register.registerButton' | translate }}</button>
+      <p>{{ 'register.alreadyHaveAccount' | translate }} <a routerLink="/login">{{ 'login.loginButton' | translate }}</a></p>
     </form>
   </div>
 </div>
