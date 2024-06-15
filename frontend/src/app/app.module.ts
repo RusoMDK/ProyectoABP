@@ -9,7 +9,7 @@ import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
-import { BaseModule } from './routing/base.module';
+import { BaseModule } from './layouts/base/base.module';
 import { DeviceModule } from './modules/Device/device.module';
 import { DataModule } from './modules/Data/data.module';
 import { SensorModule } from './modules/Sensor/sensor.module';
@@ -19,12 +19,17 @@ import { JwtInterceptor } from './core/_helpers/jwt.interceptor';
 import { UserModule } from './modules/User/user.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { DashboardOutline, UserOutline, BarChartOutline, ExperimentOutline, MobileOutline, EnvironmentOutline, DatabaseOutline } from '@ant-design/icons-angular/icons';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 registerLocaleData(en);
+
+const icons = [DashboardOutline, UserOutline, BarChartOutline, ExperimentOutline, MobileOutline, EnvironmentOutline, DatabaseOutline];
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,6 +48,7 @@ registerLocaleData(en);
     ChartsModule,
     EscenaryModule,
     UserModule,
+    NzIconModule.forRoot(icons), // Importar NzIconModule y los íconos necesarios
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -53,9 +59,9 @@ registerLocaleData(en);
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-

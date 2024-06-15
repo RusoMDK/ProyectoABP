@@ -1,18 +1,6 @@
 nz-sider {
-  height: auto;
-}
-@media (max-width: 900px) {
-  app-header {
-    height: 120px;
-  }
-  .ant-layout-sider-trigger {
-    position: relative;
-    z-index: 0;
-  }
-}
-
-@media (max-width: 500px) {
-  app-header {
-    height: 100px;
-  }
+    background-color: #202020 !important; // Asegura que el fondo sea el mismo que el menú izquierdo
+    height: auto;
+    overflow: hidden;
+    z-index: 2; // Asegura que esté por encima del texto "Menú Principal"
 }

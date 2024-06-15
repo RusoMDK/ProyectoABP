@@ -1,21 +1,107 @@
-h4 {
-  padding: 10px 25px 15px;
-  font-size: 140%;
-  line-height: 22px;
-  text-align: center;
-  color: #ffffff;
-  border-color: black;
-  background: #305680;
-  font-family: monospace;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+// Aquí no deben haber estilos que sobrescriban .menu-title, .menu-item, etc.
+
+// Variables
+$primary-color: #a6ce39;
+$background-color-dark: #202020;
+$text-color-light: #ffffff;
+$hover-color: #444444;
+$font-size-medium: 1.5em; // Aumentar el tamaño de la fuente
+$spacing-medium: 20px;
+$spacing-small: 15px;
+$border-radius: 5px;
+$transition-duration: 0.3s;
+$font-weight-bold: bold;
+$menu-width: 300px; // Aumentar el ancho del menú
+$font-family: 'Roboto', sans-serif;
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+// Menu
+.custom-menu {
+  background-color: $background-color-dark;
+  color: $text-color-light;
+  width: $menu-width;
+  height: calc(100vh - 50px); // Ajusta según sea necesario
+  overflow-y: auto;
+  overflow-x: hidden; // Ocultar el desplazamiento horizontal
+  border-right: none !important;
+  padding: $spacing-small;
+  box-shadow: $box-shadow;
+
+  .menu-item-container {
+    background-color: $background-color-dark;
+    color: $text-color-light;
+    margin-bottom: 10px;
+    border-radius: $border-radius;
+    border-bottom: 1px solid $hover-color;
+
+    .menu-item, .submenu-item {
+      background-color: $background-color-dark;
+      color: $text-color-light;
+      display: flex;
+      align-items: center;
+      padding: $spacing-small $spacing-medium; // Aumentar el tamaño de los elementos
+      border-radius: $border-radius;
+      transition: background-color $transition-duration ease, color $transition-duration ease;
+      font-size: $font-size-medium; // Aumentar el tamaño de la fuente de los botones
+      border: none !important;
+      white-space: normal;
+      word-wrap: break-word;
+      text-align: center; // Centramos el texto
+      box-shadow: $box-shadow;
+
+      &:hover {
+        background-color: $primary-color;
+        color: $background-color-dark;
+        transform: scale(1.05);
+      }
+
+      &.active {
+        background-color: $primary-color !important;
+        color: $background-color-dark !important;
+
+        .menu-icon, .submenu-icon {
+          color: $background-color-dark !important;
+        }
+      }
+
+      .menu-icon, .submenu-icon {
+        margin-right: 10px;
+        color: $primary-color;
+      }
+
+      .menu-text, .submenu-text {
+        display: block;
+      }
+    }
+  }
+
+  .titulo-menu {
+    color: $text-color-light;
+    padding: $spacing-small;
+    padding-top: $spacing-medium;
+    background-color: $background-color-dark;
+    display: flex;
+    align-items: center;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+    z-index: 2;
+    border-bottom: 2px solid $hover-color;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .icon {
+    margin-right: 10px;
+    color: $primary-color;
+  }
 }
 
-.ant-layout-sider-zero-width-trigger {
-  width: 400px;
-}
-.ant-layout-sider-zero-width-trigger-left {
-  height: 1000px;
-}
-
-.ant-layout-sider-trigger {
-  display: none;
+// Ajustar el contenedor del sider para que tenga el mismo ancho
+nz-sider {
+  width: $menu-width !important;
+  min-width: $menu-width !important;
+  max-width: $menu-width !important;
+  background-color: $background-color-dark !important;
 }

@@ -1,13 +1,12 @@
 <nz-layout style="min-height: 100%">
-  <app-header (changeIsCollapsed)="isCollapsedLeftChange()"></app-header>
+  <app-header (changeIsCollapsed)="isCollapsedLeftChange($event)"></app-header>
 
   <nz-layout>
     <nz-sider
-    style="background: #305680;"
+      class="custom-sider"
       nzCollapsible
-      nzWidth="250px"
-      nzBreakpoint="md"
       [nzCollapsedWidth]="0"
+      [nzWidth]="menuWidth"
       [(nzCollapsed)]="isCollapsedLeft"
     >
       <app-menu-left></app-menu-left>

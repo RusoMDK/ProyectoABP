@@ -12,6 +12,7 @@ export class BaseComponent {
   isCollapsedLeft = false;
   isCollapsedRight = false;
   name = '';
+  menuWidth = 300; // Añadido para controlar el ancho del menú
 
   currentUser!: User | null;
 
@@ -36,10 +37,11 @@ export class BaseComponent {
     this.router.navigate(['/login']);
   }
 
-  isCollapsedLeftChange() {
-    this.isCollapsedLeft = !this.isCollapsedLeft;
-    console.log(this.isCollapsedLeft);
+  isCollapsedLeftChange(isCollapsed: boolean) {
+    this.isCollapsedLeft = isCollapsed;
+    console.log(`isCollapsedLeft: ${this.isCollapsedLeft}`);
   }
+
   isCollapsedRightChange() {
     this.isCollapsedRight = !this.isCollapsedRight;
   }
