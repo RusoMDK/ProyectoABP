@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from '../layouts/base/base.component';
+import { WelcomeComponent } from '../layouts/base/welcome/welcome.component';
+import { AuthGuard } from '../core/_guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
+    canActivate: [AuthGuard],
     children: [
+      { path: 'welcome', component: WelcomeComponent },
       {
         path: 'devices',
         loadChildren: () =>

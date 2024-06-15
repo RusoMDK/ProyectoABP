@@ -28,14 +28,22 @@ export class AuthenticationService {
 
   register(user: RegisterData): Observable<{ accessToken: string }> {
     return this.http.post<{ accessToken: string }>(`${environment.registerUrl}`, user).pipe(
-      tap(response => this.storeJwtToken(response.accessToken)),
+      tap(response => {
+        console.log('Registro exitoso:', response);
+        this.storeJwtToken(response.accessToken); // Almacenar el token JWT
+        this.router.navigate(['/login']); // Redirigir al usuario a la página de inicio de sesión después de registrarse
+      }),
       catchError(this.handleError)
     );
   }
 
   login(credentials: LoginCredentials): Observable<{ accessToken: string }> {
     return this.http.post<{ accessToken: string }>(`${environment.loginUrl}`, credentials).pipe(
-      tap(response => this.storeJwtToken(response.accessToken)),
+      tap(response => {
+        console.log('Inicio de sesión exitoso:', response);
+        this.storeJwtToken(response.accessToken);
+        this.router.navigate(['/welcome']); // Redirigir al usuario a la página de bienvenida después de iniciar sesión
+      }),
       catchError(this.handleError)
     );
   }

@@ -1,4 +1,4 @@
-/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
+/*/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
 // Custom Theming for NG-ZORRO
 // For more information: https://ng.ant.design/docs/customize-theme/en
 @import '../node_modules/ng-zorro-antd/ng-zorro-antd.less';
@@ -6,9 +6,25 @@
 // Override less variables to here
 // View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
 
-// Colores globales
-@primary-color: #3c8dbc;
+@import '../node_modules/ng-zorro-antd/ng-zorro-antd.less';
 
+// Variables globales
+@primary-color: #a6ce39;
+@background-color-dark: #202020;
+@text-color-light: #ffffff;
+@hover-color: #444444;
+@font-size-medium: 1.5em; // Aumentar el tamaño de la fuente
+@spacing-medium: 20px;
+@spacing-small: 15px;
+@border-radius: 5px;
+@transition-duration: 0.3s;
+@font-weight-bold: bold;
+@menu-width: 300px; // Ajustar el ancho del menú según sea necesario
+@collapsed-menu-width: 0px; // Ancho del menú colapsado
+@font-family: 'Roboto', sans-serif;
+@box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+// Colores globales
 @body-background: #d2d6de;
 
 // Estilos de botones
@@ -17,32 +33,148 @@
 @btn-default-border: #ddd;
 
 // Sidebar
-@layout-sider-background: #222d32;
-
+@layout-sider-background: @background-color-dark;
 @tabs-horizontal-gutter: 4px;
 @tabs-horizontal-padding: 0;
 @tabs-title-font-size: 270%;
-
 @menu-dark-color: #b8c7ce;
 @menu-dark-highlight-color: #fff;
-@menu-dark-bg: #222d32;
+@menu-dark-bg: @background-color-dark;
 @menu-dark-inline-submenu-bg: #2c3b41;
-@menu-inline-toplevel-item-height: 20px;
-@menu-item-height: 20px;
-@menu-dark-item-hover-bg: #1e282c;
-@menu-dark-item-active-bg: #1e282c;
+@menu-inline-toplevel-item-height: 40px; // Aumentar la altura de los elementos del menú
+@menu-item-height: 40px; // Aumentar la altura de los elementos del menú
+@menu-dark-item-hover-bg: @hover-color;
+@menu-dark-item-active-bg: @hover-color;
 
 // Header
 @layout-header-height: 3.5rem;
-@layout-header-background: #fff;
+@layout-header-background: @background-color-dark;
 @layout-header-padding: 0 0.5rem;
-
 @divider-color: #eee;
 @divider-vertical-gutter: 4px;
 
 // Footer
 @layout-footer-padding: 15px;
-@layout-footer-background: #fff;
+@layout-footer-background: @background-color-dark;
+
+// Estilos específicos para el menú izquierdo
+.custom-menu {
+  background-color: @background-color-dark;
+  color: @text-color-light;
+  height: calc(100vh - 50px); // Ajusta según sea necesario
+  overflow-y: auto;
+  overflow-x: hidden; // Ocultar el desplazamiento horizontal
+  border-right: none !important;
+  padding: @spacing-small;
+  box-shadow: @box-shadow;
+
+  .menu-item-container {
+    background-color: @background-color-dark;
+    color: @text-color-light;
+    margin-bottom: 10px;
+    border-radius: @border-radius;
+    border-bottom: 1px solid @hover-color;
+
+    .menu-item, .submenu-item {
+      background-color: @background-color-dark;
+      color: @text-color-light;
+      display: flex;
+      align-items: center;
+      padding: @spacing-small @spacing-medium; // Aumentar el tamaño de los elementos
+      border-radius: @border-radius;
+      transition: background-color @transition-duration ease, color @transition-duration ease;
+      font-size: @font-size-medium; // Aumentar el tamaño de la fuente de los botones
+      border: none !important;
+      white-space: normal;
+      word-wrap: break-word;
+      text-align: center; // Centramos el texto
+      box-shadow: @box-shadow;
+
+      &:hover {
+        background-color: @primary-color;
+        color: @background-color-dark;
+        transform: scale(1.05);
+      }
+
+      &.active {
+        background-color: @primary-color !important;
+        color: @background-color-dark !important;
+
+        .menu-icon, .submenu-icon {
+          color: @background-color-dark !important;
+        }
+      }
+
+      .menu-icon, .submenu-icon {
+        margin-right: 10px;
+        color: @primary-color;
+      }
+
+      .menu-text, .submenu-text {
+        display: block;
+      }
+    }
+  }
+
+  .menu-title {
+    color: @text-color-light;
+    padding: @spacing-small;
+    padding-top: @spacing-medium;
+    background-color: @background-color-dark;
+    display: flex;
+    align-items: center;
+    font-size: @font-size-medium;
+    font-weight: @font-weight-bold;
+    z-index: 2;
+    border-bottom: 2px solid @hover-color;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .icon {
+    margin-right: 10px;
+    color: @primary-color;
+  }
+}
+
+// Ajustar el contenedor del sider para que tenga el mismo ancho
+.custom-sider {
+  width: @menu-width;
+  min-width: @menu-width;
+  max-width: @menu-width;
+  background-color: @background-color-dark;
+  transition: all @transition-duration;
+
+  &.collapsed {
+    width: @collapsed-menu-width;
+    min-width: @collapsed-menu-width;
+    max-width: @collapsed-menu-width;
+    overflow: hidden;
+  }
+}
+
+.nz-layout > nz-sider.custom-sider {
+  width: @menu-width;
+  min-width: @menu-width;
+  max-width: @menu-width;
+  background-color: @background-color-dark;
+  transition: all @transition-duration;
+
+  &.collapsed {
+    width: @collapsed-menu-width;
+    min-width: @collapsed-menu-width;
+    max-width: @collapsed-menu-width;
+    overflow: hidden;
+  }
+}
+
+// Divisiones de secciones
+.section-divider {
+  background-color: @background-color-dark;
+  height: 20px; // Ajusta según sea necesario
+  margin: 0; // Quitar cualquier margen
+  width: 100%; // Asegurar que ocupa todo el ancho disponible
+}
 
 /*
 @import '../color/colors';

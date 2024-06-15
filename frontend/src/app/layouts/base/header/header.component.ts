@@ -21,13 +21,9 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userName = JSON.parse(localStorage.getItem('userData') as string)[
-      'username'
-    ];
-    // Por algún motivo no funcionan:
-    // this.periodoCurrent = this.periodoList[0].name;
-    // this.tipoCurrent = this.tipoList[0].name;
-    // this.menuCurrent = this.menuList[0].name;
+    const userData = JSON.parse(localStorage.getItem('userData') as string);
+    this.userName = userData ? userData['username'] : 'Nombre de Usuario';
+    this.userTime = userData ? userData['membershipDate'] : 'hace mucho tiempo';
   }
 
   logout() {
@@ -36,7 +32,9 @@ export class HeaderComponent implements OnInit {
   }
 
   isCollapsedMethod() {
-    this.changeIsCollapsed.emit(!this.isCollapsed);
     this.isCollapsed = !this.isCollapsed;
+    console.log('isCollapsed:', this.isCollapsed);
+    this.changeIsCollapsed.emit(this.isCollapsed);
   }
+  
 }

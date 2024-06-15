@@ -1,0 +1,214 @@
+.welcome-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.video-section {
+  background-color: #000;
+  color: #ffffff;
+  text-align: center;
+  width: 100%; /* Asegura que la sección ocupe todo el ancho disponible */
+  height: 60vh; /* Ajustar la altura para que no sea tan alta */
+  overflow: hidden;
+  transition: width 0.3s ease; /* Transición suave para el cambio de ancho */
+}
+
+#background-video {
+  width: 100%; /* Ajusta el video para que cubra todo el ancho del contenedor */
+  height: 100%;
+  object-fit: cover; /* Ajusta el video para que cubra el área de la sección */
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  text-align: center;
+  width: 80%;
+}
+
+.overlay h1 {
+  font-size: 3rem; /* Incrementar el tamaño del título */
+  margin-bottom: 20px;
+  color: #a6ce39;
+}
+
+.overlay button {
+  background-color: #a6ce39;
+  color: #171e21;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.text-section {
+  background-color: #171e21;
+  color: #ffffff;
+  text-align: center;
+  padding: 60px 20px;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  width: 100%;
+}
+
+.arduino-description {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6; /* Espaciado entre líneas para mejor legibilidad */
+}
+
+.arduino-description .highlight {
+  font-size: 2rem; /* Tamaño más grande para el título */
+  font-weight: bold;
+  margin-bottom: 20px; /* Más espacio debajo del título */
+  transition: transform 0.3s ease; /* Transición para el zoom */
+}
+
+.arduino-description .highlight:hover {
+  transform: scale(1.1); /* Efecto de zoom */
+}
+
+.arduino-description p {
+  font-size: 1.2rem;
+}
+
+.carousel-section {
+  background-color: #000;
+  color: #ffffff;
+  padding: 60px 20px;
+  width: 100%;
+}
+
+.carousel-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item {
+  margin: 0 auto; /* Centrar las imágenes del carrusel */
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain; /* Ajustar para que la imagen no se recorte */
+  transition: none; /* Eliminar el efecto de transición */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  filter: invert(1); /* Cambiar el color de los controles para que sean visibles en fondos oscuros */
+  width: 50px; /* Ajustar el ancho de los controles */
+  height: 50px; /* Ajustar el alto de los controles */
+  top: 50%; /* Centrar los controles verticalmente */
+  transform: translateY(-50%);
+  margin-top: 0; /* Eliminar el margen superior */
+}
+
+.carousel-control-prev {
+  left: 5%; /* Ajustar la posición más cerca de la imagen */
+}
+
+.carousel-control-next {
+  right: 5%; /* Ajustar la posición más cerca de la imagen */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para mayor visibilidad */
+  border-radius: 50%; /* Hacer los íconos circulares */
+}
+
+.carousel-item img:hover {
+  transform: none; /* Eliminar el efecto de zoom */
+}
+
+.new-text-section {
+  background-color: #171e21;
+  color: #ffffff;
+  text-align: center;
+  padding: 60px 20px;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  width: 100%;
+}
+
+.new-text-section h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #ffffff; /* Asegurar que el color del título sea blanco */
+  transition: transform 0.3s ease; /* Transición para el zoom */
+}
+
+.new-text-section h2:hover {
+  transform: scale(1.1); /* Efecto de zoom */
+}
+
+.new-text-section p {
+  margin-bottom: 40px;
+  font-size: 1.2rem;
+}
+
+.new-text-section .row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.new-text-section .col {
+  flex: 1;
+  padding: 20px;
+  max-width: 300px;
+  margin: 0 10px;
+}
+
+.new-text-section .col h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ffffff; /* Asegurar que el color del subtítulo sea blanco */
+  transition: transform 0.3s ease; /* Transición para el zoom */
+}
+
+.new-text-section .col h4:hover {
+  transform: scale(1.1); /* Efecto de zoom */
+}
+
+.new-text-section .col p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.new-text-section .col.full-width {
+  max-width: 100%;
+  flex: 1 0 100%;
+}
+
+.section-divider {
+  background-color: #202020; /* Cambiar el color de fondo a oscuro */
+  height: 20px; /* Ajusta según sea necesario */
+  margin: 0; /* Quitar cualquier margen */
+  width: 100%; /* Asegurar que ocupa todo el ancho disponible */
+}

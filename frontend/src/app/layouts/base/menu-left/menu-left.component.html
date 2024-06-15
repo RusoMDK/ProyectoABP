@@ -1,25 +1,18 @@
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-
-
-<ng-template #avatarTemplate>
-  <nz-avatar nzSrc="../../../assets/default-avatar.png"></nz-avatar>
-</ng-template>
-
-<nz-tabset style="border-bottom: 1px solid #305680; padding-bottom: 10px">
+<nz-tabset class="custom-tabset">
   <nz-tab>
-    <h4>
-      <span nz-icon nzType="home" style="margin-right: 10px;"></span>Menú Principal</h4>
-    <ul nz-menu nzMode="inline" >
-      <div *ngFor="let menuItem of organizationTab" style="background: #305680; color: #ffffff;">
-        <ng-container 
-          *ngIf="menuItem.sub_menus.length > 0; else emptySubMenuOrganization"
-        >
+    <ul nz-menu nzMode="inline" class="custom-menu">
+      <h3 class="titulo-menu">
+        <span class="icon bi bi-house"></span> Menú Principal
+      </h3>
+      <div *ngFor="let menuItem of organizationTab" class="menu-item-container">
+        <ng-container *ngIf="menuItem.sub_menus.length > 0; else emptySubMenuOrganization">
           <li 
             nz-submenu
             [nzTitle]="menuItem.name"
             [(nzOpen)]="menuItem.open"
             (nzOpenChange)="clickSingle(organizationTab, menuItem)"
             [nzDisabled]="menuItem.disabled"
+            class="menu-item"
           >
             <ul *ngIf="menuItem.sub_menus.length !== 0">
               <li
@@ -29,7 +22,9 @@
                 [nzDisabled]="!subItem.url"
                 [routerLink]="menuItem.domain + '/' + subItem.url"
                 [nzMatchRouter]="true"
+                class="submenu-item"
               >
+                <span class="submenu-icon bi" [class.bi-experiment]="subItem.icon === 'experiment'" [class.bi-question-circle]="!subItem.icon"></span>
                 {{ subItem.name }}
               </li>
             </ul>
@@ -41,7 +36,9 @@
             nz-menu-item
             [routerLink]="menuItem.domain"
             [nzMatchRouter]="true"
+            class="menu-item"
           >
+            <span class="menu-icon bi" [class.bi-experiment]="menuItem.icon === 'experiment'" [class.bi-question-circle]="!menuItem.icon"></span>
             {{ menuItem.name }}
           </li>
         </ng-template>

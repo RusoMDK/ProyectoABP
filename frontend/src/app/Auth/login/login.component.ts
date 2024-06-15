@@ -75,13 +75,13 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         response => {
-          console.log('Login successful', response); // Debugging
-          this.router.navigate([this.returnUrl]);
+          console.log('Redirigiendo a /welcome', response); // Debugging
+          this.router.navigate(['/welcome']);
         },
         error => {
-          console.error('Login failed', error); // Debugging
           this.error = error;
           this.loading = false;
+          console.error('Error de inicio de sesión:', error); // Debugging
         });
   }
   

@@ -1,57 +1,42 @@
-<nz-header style="background: #305680; border-color: black;">
+<nz-header class="custom-header">
   <div class="container">
-
-    <nz-divider nzType="vertical"></nz-divider>
-    <button
-      class="button-menu"
-      nz-button
-      nzType="text"
-      (click)="isCollapsedMethod()"
-    >
-      <span nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-    </button>
-    <nz-divider nzType="vertical"></nz-divider>
-
-
-    <div
-      class="menu-login"
-      style="margin-left: auto; padding: 0px 15px; border: 1px solid #eeeeee"
-    >
-      <a 
-        nz-tooltip
-        [nzTooltipArrowPointAtCenter]="true"
-        [nzTooltipTrigger]="'click'"
-        [nzTooltipPlacement]="'bottomLeft'"
-        [nzTooltipTitle]="userTemplate"
-        style="color: white"
-        ><nz-avatar nzIcon="user"></nz-avatar>
-        <span class="userName-user">
-          {{ userName || 'Nombre de User' }}</span
-        ></a
-      >
+    <div class="header-content">
+      <button class="button-menu" nz-button nzType="text" (click)="isCollapsedMethod()">
+        <i class="bi" [class.bi-list]="!isCollapsed" [class.bi-x]="isCollapsed"></i>
+      </button>
+      <h1 class="header-title">Sistema de Recolección, Almacenamiento y Visualización de Parámetros de Pruebas de Dispositivos Físicos</h1>
+      <div class="menu-login">
+        <a nz-tooltip [nzTooltipArrowPointAtCenter]="true" [nzTooltipTrigger]="'click'" [nzTooltipPlacement]="'bottomLeft'" [nzTooltipTitle]="userTemplate" style="color: white">
+          <nz-avatar nzSrc="../../../assets/default-avatar.png" nzSize="large" class="user-avatar"></nz-avatar>
+          <span class="userName-user">{{ userName || 'Nombre de Usuario' }}</span>
+        </a>
+      </div>
     </div>
   </div>
 </nz-header>
 
 <ng-template #userTemplate>
   <nz-card [nzCover]="coverTemplate" [nzActions]="[actionPerfil, actionSalir]">
-    <button nz-button nzType="text">
-      <span nz-icon nzType="lock"></span>Bloquear
-    </button>
+    <div class="user-card-content">
+      <nz-avatar nzSrc="../../../assets/default-avatar.png" nzSize="large" class="user-avatar"></nz-avatar>
+      <br />
+      {{ userName || 'Nombre de Usuario' }}
+      <br />
+      <small>Miembro desde {{ userTime || 'hace mucho tiempo' }}</small>
+    </div>
   </nz-card>
 </ng-template>
-<ng-template #coverTemplate>
-  <nz-avatar [nzSize]="64" nzIcon="user" style="margin: auto"></nz-avatar>
-  {{ userName || 'Nombre de User' }}<br />
-  <small>Miembro desde {{ userTime || 'hace mucho tiempo' }}</small>
-</ng-template>
+
+<ng-template #coverTemplate></ng-template>
+
 <ng-template #actionPerfil>
   <button nz-button nzType="default" routerLink="/">
-    <span nz-icon nzType="user"></span>Perfil
+    <i class="bi bi-person"></i> Perfil
   </button>
 </ng-template>
+
 <ng-template #actionSalir>
   <button nz-button nzType="default" class="gray-2" (click)="logout()">
-    <span nz-icon nzType="logout"></span>Salir
+    <i class="bi bi-box-arrow-right"></i> Salir
   </button>
 </ng-template>
