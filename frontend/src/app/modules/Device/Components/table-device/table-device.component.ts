@@ -54,8 +54,8 @@ export class TableDeviceComponent implements OnChanges,OnInit {
   }
 
   delete(id: number): void {
-    const ids = Number(id)
-    this.actionEvent.emit({ action: 'delete', id: ids });
+    console.log('este es el id',id)
+    this.actionEvent.emit({ action: 'delete', id: id });
   }
 
       

@@ -26,6 +26,7 @@ export class DeviceService {
   }
 
   delete(id:number): Observable<Devices> {
+    console.log('aqui llega el id',id)
     return this.http.delete<Devices>(`${this.apiUrl}/${id}`);
   }
 }

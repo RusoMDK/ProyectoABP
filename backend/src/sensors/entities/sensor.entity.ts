@@ -20,15 +20,25 @@ export class Sensor {
   @Column()
   description: string;
 
-  @ManyToOne(() => Escenary, (escenary) => escenary.sensors)
+  @ManyToOne(() => Escenary, (escenary) => escenary.sensors,{
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   escenary: Escenary;
 
   @OneToMany(
     () => Data_Sensor,
-    (data_Sensor: Data_Sensor) => data_Sensor.sensor,
+    (data_Sensor: Data_Sensor) => data_Sensor.sensor,{
+      cascade: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    }
   )
   data: Data_Sensor[];
 
-  @ManyToOne(() => Device, (device) => device.sensor)
+  @ManyToOne(() => Device, (device) => device.sensor,{
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   device: Device;
 }

@@ -72,11 +72,10 @@ export class DeviceListComponent implements OnInit {
     });
   }
 
-  deleteExamination(id: number): void {
-    // encontrar el examen para obtener su nombre antes de borrarlo
+  deleteDevice(id: number): void {
     const device = this.listOfData.find(item => String(item.id) === String(id));
     if (!device) {
-      this.notification.error('Error', 'Modelo de Exportar no encontrado.');
+      this.notification.error('Error', 'Dispositivo no encontrado.');
       return;
     }
 
@@ -175,12 +174,22 @@ export class DeviceListComponent implements OnInit {
   }
 
   deleteData(id: number): void {
-    // encontrar el examen para obtener su nombre antes de borrarlo
-    const device = this.listOfData.find(item => String(item.id) === String(id));
-    if (!device) {
-      this.notification.error('Error', 'Dispositivo no encontrado.');
+    const data = this.listOfData.find(item => item.id === id);
+    if (!data) {
+      this.notification.error('Error', 'Documento de ayuda no encontrado.');
       return;
     }
+
+    this.deviceService.delete(id).subscribe(() => {
+      // Ahora que el examen se ha borrado exitosamente, eliminarlo de la lista de datos
+      this.listOfData = this.listOfData.filter(item => item.id !== id);
+
+      // Enviar notificación de éxito
+      this.notification.success('Dispositivo', `El Dispositivo"${data.name}" ha sido eliminado exitosamente.`);
+    }, error => {
+      // Manejar el error en caso de que algo falle durante el proceso de borrado
+      this.notification.error('Error al Borrar', `Ha ocurrido un error al intentar borrar el dispositivo: "${data.name}"`);
+    });
   }
 
   sortDataByCode(): void {
@@ -199,7 +208,7 @@ export class DeviceListComponent implements OnInit {
         break;
       case 'deleteSelected':
         if (typeof event.id === 'number') {
-          this.deleteExamination(event.id);
+          this.deleteDevice(event.id);
         }
         break;
       case 'onAllChecked':

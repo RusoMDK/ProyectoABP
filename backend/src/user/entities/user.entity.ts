@@ -26,12 +26,23 @@ export class User {
   @Column()
   password: string;
 
-  @ManyToOne(() => Role, (role) => role.users)
+  @ManyToOne(() => Role, (role) => role.users,{
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   role: Role;
 
-  @OneToMany(() => Device, (device) => device.user)
+  @OneToMany(() => Device, (device) => device.user,{
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   device: Device[];
 
-  @OneToMany(() => Escenary, (escenary) => escenary.user)
+  @OneToMany(() => Escenary, (escenary) => escenary.user,{
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   scenary: Escenary[];
 }

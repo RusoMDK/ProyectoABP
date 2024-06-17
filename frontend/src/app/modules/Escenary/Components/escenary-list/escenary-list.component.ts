@@ -72,8 +72,8 @@ export class EscenaryListComponent implements OnInit {
   }
 
   deleteEscenary(id: number): void {
-    // encontrar el escenary para obtener su nombre antes de borrarlo
-    const escenary = this.listOfData.find(item => String(item.id) === String(id));
+    console.log('id de escenario',id)
+    const escenary = this.listOfData.find(item => item.id === id);
     if (!escenary) {
       this.notification.error('Error', 'escenary no encontrado.');
       return;
@@ -169,13 +169,12 @@ export class EscenaryListComponent implements OnInit {
       nzCancelText: 'Cancelar',
       nzOkText: 'Aceptar',
       nzOkType: 'primary',
-      nzOnOk: () => this.deleteData(id),
+      nzOnOk: () => this.deleteEscenary(id),
     });
   }
 
   deleteData(id: number): void {
-    // encontrar el examen para obtener su nombre antes de borrarlo
-    const device = this.listOfData.find(item => String(item.id) === String(id));
+    const device = this.listOfData.find(item => item.id === id);
     if (!device) {
       this.notification.error('Error', 'escenary no encontrado.');
       return;

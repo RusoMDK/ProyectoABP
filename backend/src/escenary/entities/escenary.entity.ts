@@ -20,12 +20,23 @@ export class Escenary {
   @Column()
   description: string;
 
-  @OneToMany(() => Sensor, (sensor) => sensor.escenary)
+  @OneToMany(() => Sensor, (sensor) => sensor.escenary,{
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   sensors: Sensor[];
 
-  @OneToMany(() => Data_Sensor, (datas) => datas.escenary)
+  @OneToMany(() => Data_Sensor, (datas) => datas.escenary,{
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   datas: Sensor[];
 
-  @ManyToOne(() => User, (user) => user.scenary)
+  @ManyToOne(() => User, (user) => user.scenary,{
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   user: User;
 }
