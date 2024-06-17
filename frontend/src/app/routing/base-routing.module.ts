@@ -29,7 +29,7 @@ const routes: Routes = [
         path: 'charts',
         loadChildren: () =>
           import('../modules/Charts/charts-routing.module').then(
-            (m) => m.ChartRoutingModule,
+            (m) => m.ChartsRoutingModule,
           ),
       },
       {

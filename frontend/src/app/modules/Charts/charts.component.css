@@ -1,0 +1,73 @@
+.chart-container {
+  width: 45%;
+  margin: 20px;
+  padding: 20px;
+  background-color: #171e21; /* Fondo actualizado */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  color: #ecf0f1; /* Texto claro para mejor legibilidad */
+  text-align: center;
+  display: inline-block;
+}
+
+.chart-container h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #ecf0f1; /* Título blanco */
+}
+
+.chart-row {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+ngx-charts-pie-chart, ngx-charts-bar-vertical {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+:host ::ng-deep .ngx-charts text {
+  fill: #ecf0f1 !important; /* Texto blanco dentro de los gráficos */
+  font-size: 12px; /* Ajustar el tamaño del texto para evitar cortes */
+}
+
+:host ::ng-deep .ngx-charts .tooltip-area {
+  fill: #171e21 !important; /* Fondo oscuro para las áreas de tooltip */
+}
+
+:host ::ng-deep .ngx-charts .tooltip-area text {
+  fill: #ecf0f1 !important; /* Texto blanco en las áreas de tooltip */
+}
+
+:host ::ng-deep .ngx-charts .x-axis .tick text,
+:host ::ng-deep .ngx-charts .y-axis .tick text {
+  fill: #ecf0f1 !important; /* Texto de ejes en blanco */
+  font-size: 12px; /* Ajustar el tamaño del texto de los ejes */
+}
+
+:host ::ng-deep .ngx-charts .x-axis .label,
+:host ::ng-deep .ngx-charts .y-axis .label {
+  fill: #ecf0f1 !important; /* Etiquetas de ejes en blanco */
+  font-size: 14px; /* Ajustar el tamaño de las etiquetas */
+}
+
+:host ::ng-deep .ngx-charts .legend-title,
+:host ::ng-deep .ngx-charts .legend-label {
+  fill: #ecf0f1 !important; /* Texto de la leyenda en blanco */
+  font-size: 14px; /* Ajustar el tamaño del texto de la leyenda */
+  white-space: nowrap; /* Evitar que los textos de la leyenda se corten */
+}
+
+:host ::ng-deep .ngx-charts .legend-label {
+  max-width: 100px; /* Ajustar el ancho máximo de las etiquetas de la leyenda */
+  overflow: hidden; /* Ocultar desbordamiento de texto */
+  text-overflow: ellipsis; /* Agregar puntos suspensivos al texto desbordado */
+}
+
+:host ::ng-deep .ngx-charts .legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centrar las etiquetas de la leyenda */
+}

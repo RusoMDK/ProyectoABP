@@ -1,44 +1,67 @@
-<ngx-charts-line-chart
-  [view]="[700, 400]"
-  [scheme]="colorScheme"
-  [results]="lineChartData"
-  [legend]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  [autoScale]="true">
-</ngx-charts-line-chart>
+<div class="chart-row">
+  <div class="chart-container">
+    <h2>Humedad Relativa</h2>
+    <ngx-charts-pie-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="humidityData"
+      [labels]="true"
+      [legend]="true"
+      [doughnut]="false"
+      [tooltipDisabled]="false"
+      [tooltipTemplate]="tooltipTemplate">
+    </ngx-charts-pie-chart>
+  </div>
 
-<ngx-charts-area-chart
-  [view]="[700, 400]"
-  [scheme]="colorScheme"
-  [results]="areaChartData"
-  [legend]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  [autoScale]="true">
-</ngx-charts-area-chart>
+  <div class="chart-container">
+    <h2>Humedad del Suelo</h2>
+    <ngx-charts-pie-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="soilMoistureData"
+      [labels]="true"
+      [legend]="true"
+      [doughnut]="false"
+      [tooltipDisabled]="false"
+      [tooltipTemplate]="tooltipTemplate">
+    </ngx-charts-pie-chart>
+  </div>
+</div>
 
-<ngx-charts-bar-vertical
-  [view]="[700, 400]"
-  [scheme]="colorScheme"
-  [results]="barChartData"
-  [gradient]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  [legend]="true"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxisLabel]="'Time'"
-  [yAxisLabel]="'Value'">
-</ngx-charts-bar-vertical>
+<div class="chart-row">
+  <div class="chart-container">
+    <h2>Temperatura (°C)</h2>
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="temperatureCData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Fecha'"
+      [yAxisLabel]="'°C'">
+    </ngx-charts-bar-vertical>
+  </div>
 
-<ngx-charts-gauge
-[view]="[400, 400]"
-[scheme]="colorScheme"
-[results]="gaugeChartData"
-[min]="0"
-[max]="100"
-[angleSpan]="240"
-[startAngle]="-120"
-[units]="'%'">
-</ngx-charts-gauge>
+  <div class="chart-container">
+    <h2>Índice de Calor (°C)</h2>
+    <ngx-charts-bar-vertical
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="heatIndexCData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Fecha'"
+      [yAxisLabel]="'°C'">
+    </ngx-charts-bar-vertical>
+  </div>
+</div>
+
+<ng-template #tooltipTemplate let-model="model">
+  <span>{{ model.name }}: {{ model.value }}{{ model.name === 'Humedad' || model.name === 'Humedad del Suelo' ? '%' : '' }}</span>
+</ng-template>

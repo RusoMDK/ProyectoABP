@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { DataS } from '../Components/interface/data.interface';
+
 
 
 @Injectable({
@@ -27,5 +29,14 @@ export class DataService {
   }
   subscribeToTopic(): Observable<string> {
     return this.http.get<string>(`http://localhost:3000/mqtt/subscribe`);
+  }
+
+  getAllStoredData(): Observable<DataS[]> {
+    return this.http.get<DataS[]>(`${this.apiUrl}/all`);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error al obtener datos:', error);
+    return throwError('Ocurrió un error al obtener los datos; por favor, inténtelo de nuevo más tarde.');
   }
 }

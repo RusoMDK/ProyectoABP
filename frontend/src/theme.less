@@ -6,6 +6,7 @@
 // Override less variables to here
 // View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
 
+
 @import '../node_modules/ng-zorro-antd/ng-zorro-antd.less';
 
 // Variables globales
@@ -16,7 +17,7 @@
 @font-size-medium: 1.5em; // Aumentar el tamaño de la fuente
 @spacing-medium: 20px;
 @spacing-small: 15px;
-@border-radius: 5px;
+@border-radius: 8px;
 @transition-duration: 0.3s;
 @font-weight-bold: bold;
 @menu-width: 300px; // Ajustar el ancho del menú según sea necesario
@@ -25,7 +26,7 @@
 @box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 
 // Colores globales
-@body-background: #d2d6de;
+@body-background: #171e21;
 
 // Estilos de botones
 @btn-default-color: #444;
@@ -174,6 +175,164 @@
   height: 20px; // Ajusta según sea necesario
   margin: 0; // Quitar cualquier margen
   width: 100%; // Asegurar que ocupa todo el ancho disponible
+}
+
+/* Estilos específicos para los cuadros de escenarios */
+.escenary-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #171e21 !important;
+}
+
+.escenary-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #282828 !important;
+  border: 1px solid #444 !important;
+  border-radius: 8px !important;
+  width: calc(25% - 20px) !important;
+  height: 200px !important;
+  padding: 10px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+  perspective: 1000px !important;
+  color: @text-color-light !important;
+}
+
+.add-card {
+  justify-content: center !important;
+  cursor: pointer !important;
+  font-size: 2em !important;
+  font-weight: bold !important;
+  color: @primary-color !important;
+  background-color: @background-color-dark !important;
+  border: 1px dashed @primary-color !important;
+}
+
+.escenary-info {
+  text-align: center !important;
+  font-size: 2em !important;
+  flex-grow: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: @text-color-light !important;
+}
+
+.escenary-actions {
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: center !important;
+  position: absolute;
+  bottom: -40px; /* Mueve los botones fuera del cuadro */
+}
+
+.escenary-actions button {
+  color: @text-color-light !important;
+  background-color: @primary-color !important;
+}
+
+.flip-card {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  text-align: center !important;
+  transition: transform 0.6s !important;
+  transform-style: preserve-3d !important;
+}
+
+.flip-card-inner {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  backface-visibility: hidden !important;
+}
+
+.flip-card-front {
+  background-color: #282828 !important;
+  color: @text-color-light !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.flip-card-back {
+  background-color: #282828 !important;
+  color: @text-color-light !important;
+  transform: rotateY(180deg) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 10px !important;
+}
+
+.flipped {
+  transform: rotateY(180deg) !important;
+}
+
+// Estilos para los gráficos
+.chart-container {
+  width: 100%;
+  height: 400px; // Ajusta la altura según sea necesario
+  margin: 20px 0;
+}
+
+.chart {
+  width: 100%;
+  height: 100%;
+}
+
+ngx-charts-line-chart, ngx-gauge {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// Ajustes de texto y leyendas en los gráficos
+:host ::ng-deep .ngx-charts text {
+  fill: @text-color-light !important; /* Color del texto en los gráficos */
+}
+
+:host ::ng-deep .legend-label, :host ::ng-deep .legend-title {
+  fill: @text-color-light !important;
+  font-size: 14px !important; /* Ajuste del tamaño de fuente para que se vea mejor */
+}
+
+:host ::ng-deep .x-axis .tick text, :host ::ng-deep .y-axis .tick text {
+  fill: @text-color-light !important; /* Color del texto en los ejes */
+}
+
+:host ::ng-deep .x-axis .label, :host ::ng-deep .y-axis .label {
+  fill: @text-color-light !important; /* Color de las etiquetas de los ejes */
+}
+
+:host ::ng-deep .tooltip-label {
+  fill: @text-color-light !important; /* Color de las etiquetas de las herramientas */
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: @text-color-light;
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.chart-title {
+  color: @text-color-light;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 /*

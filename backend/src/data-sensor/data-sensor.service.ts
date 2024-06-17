@@ -21,7 +21,7 @@ export class DataSensorService {
     return this.dataRepository.save(data);
   }
 
-  findAll() {
+  findAll(): Promise<Data_Sensor[]> {
     return this.dataRepository.find();
   }
 

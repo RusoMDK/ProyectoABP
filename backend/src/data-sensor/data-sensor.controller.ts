@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { DataSensorService } from './data-sensor.service';
 import { CreateDataSensorDto } from './dto/create-data-sensor.dto';
 import { UpdateDataSensorDto } from './dto/update-data-sensor.dto';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { Data_Sensor } from './entities/data-sensor.entity';
 
 @Controller('data-sensor')
 export class DataSensorController {
@@ -13,8 +23,8 @@ export class DataSensorController {
     return this.dataSensorService.create(createDataSensorDto);
   }
 
-  @Get()
-  findAll() {
+  @Get('all')
+  async findAll(): Promise<Data_Sensor[]> {
     return this.dataSensorService.findAll();
   }
 
