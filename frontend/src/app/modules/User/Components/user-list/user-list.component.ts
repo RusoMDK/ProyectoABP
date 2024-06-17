@@ -75,7 +75,7 @@ export class UserListComponent implements OnInit {
 
   deleteUser(id: number): void {
     // encontrar el User para obtener su nombre antes de borrarlo
-    const user = this.listOfData.find(item => String(item.id) === String(id));
+    const user = this.listOfData.find(item => item.id === id);
     if (!user) {
       this.notification.error('Error', 'User no encontrado.');
       return;
@@ -171,7 +171,7 @@ export class UserListComponent implements OnInit {
       nzCancelText: 'Cancelar',
       nzOkText: 'Aceptar',
       nzOkType: 'primary',
-      nzOnOk: () => this.deleteData(id),
+      nzOnOk: () => this.deleteUser(id),
     });
   }
 

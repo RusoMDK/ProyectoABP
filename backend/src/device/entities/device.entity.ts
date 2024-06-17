@@ -16,9 +16,17 @@ export class Device {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, (user) => user.device)
+  @ManyToOne(() => User, (user) => user.device,{
+
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   user: number;
 
-  @OneToMany(() => Sensor, (sensor) => sensor.device)
+  @OneToMany(() => Sensor, (sensor) => sensor.device,{
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   sensor: Sensor[];
 }

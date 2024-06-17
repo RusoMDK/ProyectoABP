@@ -71,9 +71,9 @@ export class SensorListComponent implements OnInit {
     });
   }
 
-  deleteExamination(id: number): void {
+  deleteSensor(id: number): void {
     // encontrar el sensor para obtener su nombre antes de borrarlo
-    const sensor = this.listOfData.find(item => String(item.id) === String(id));
+    const sensor = this.listOfData.find(item => item.id === id);
     if (!sensor) {
       this.notification.error('Error', 'Sensor no encontrado.');
       return;
@@ -169,7 +169,7 @@ export class SensorListComponent implements OnInit {
       nzCancelText: 'Cancelar',
       nzOkText: 'Aceptar',
       nzOkType: 'primary',
-      nzOnOk: () => this.deleteData(id),
+      nzOnOk: () => this.deleteSensor(id),
     });
   }
 
@@ -198,7 +198,7 @@ export class SensorListComponent implements OnInit {
         break;
       case 'deleteSelected':
         if (typeof event.id === 'number') {
-          this.deleteExamination(event.id);
+          this.deleteSensor(event.id);
         }
         break;
       case 'onAllChecked':

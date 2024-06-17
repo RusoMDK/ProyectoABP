@@ -158,7 +158,7 @@ export class AddEditDeviceComponent implements OnInit {
   private afterSubmit(redirectToDevicesList: boolean): void {
     this.validateForm.reset();
     if (redirectToDevicesList) {
-      this.router.navigate(['/devices-list-device']);
+      this.router.navigate(['/devices/list-device']);
     }
   }
 

@@ -22,9 +22,15 @@ export class Data_Sensor {
   @Column({ nullable: true })
   deletedAt: Date;
 
-  @ManyToOne(() => Sensor, (sensor) => sensor.data)
+  @ManyToOne(() => Sensor, (sensor) => sensor.data, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   sensor: Sensor;
 
-  @ManyToOne(() => Escenary, (escenary) => escenary.datas)
+  @ManyToOne(() => Escenary, (escenary) => escenary.datas,{
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   escenary: Escenary;
 }
