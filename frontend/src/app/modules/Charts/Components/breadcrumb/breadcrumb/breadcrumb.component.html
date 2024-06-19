@@ -1,0 +1,18 @@
+<div class="breadcrumb-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb d-flex justify-content-between align-items-center">
+      <div>
+        <li class="breadcrumb-item"><a routerLink="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a routerLink="/charts">Gráficos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ formattedDate || 'Página Actual' }}</li>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#datePickerModal">
+          Seleccionar fecha
+        </button>
+      </div>
+    </ol>
+  </nav>
+
+  <app-date-picker-modal (dateSelected)="onDateSelected($event)"></app-date-picker-modal>
+</div>

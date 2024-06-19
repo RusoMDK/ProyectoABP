@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,6 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TableActionEvent } from '../interface/table-action-event.model';
 import { DeviceService } from '../../services/device.service';
 import { Devices } from '../interface/device.interface';
+import { AddEditDeviceComponent } from '../add-edit-device/add-edit-device.component';
 
 @Component({
   selector: 'app-device-list',
@@ -31,7 +34,13 @@ export class DeviceListComponent implements OnInit {
 
   ];
 
-  constructor(private notification: NzNotificationService, private deviceService: DeviceService, private router: Router, private modalService: NzModalService) { }
+  constructor(
+    private notification: NzNotificationService, 
+    private deviceService: DeviceService, 
+    private router: Router, 
+    private modalService: NzModalService,
+    private modal: NzModalService,
+  ) { }
 
   ngOnInit(): void {
     this.loadHelp();
@@ -69,6 +78,15 @@ export class DeviceListComponent implements OnInit {
             return true;
         }
       });
+    });
+  }
+
+  openAddEditDeviceModal(): void {
+    this.modal.create({
+      nzTitle: 'Agregar o Editar Dispositivo',
+      nzContent: AddEditDeviceComponent,
+      nzFooter: null
+      
     });
   }
 

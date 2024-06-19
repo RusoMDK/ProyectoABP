@@ -15,6 +15,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
+
   constructor(private http: HttpClient, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<User | null>(
       JSON.parse(localStorage.getItem('userData') as string)

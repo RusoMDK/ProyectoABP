@@ -20,3 +20,10 @@ export interface SensorUpdate{
     escenary?:number
     device?:number
   }
+
+export interface SensorData{
+    id:number
+    type: string
+    description: string
+    userName: string
+}

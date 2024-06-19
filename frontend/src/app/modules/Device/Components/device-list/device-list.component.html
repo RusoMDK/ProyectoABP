@@ -20,9 +20,11 @@
           </ul>
         </nz-dropdown-menu>
   
-        <button nz-button nzType="default" [routerLink]="['/devices/add-edit-device']">
-          <span nz-icon nzType="plus-circle" nzTheme="fill"></span> Agregar nuevo
-        </button>
+        <!-- Cambiar el botón para abrir el modal -->
+          <button nz-button nzType="default" (click)="openAddEditDeviceModal()">
+            <span nz-icon nzType="plus-circle" nzTheme="fill"></span> Agregar nuevo
+          </button>
+
       </div>
     </div>
  

@@ -35,6 +35,10 @@ export class DataService {
     return this.http.get<DataS[]>(`${this.apiUrl}/all`);
   }
 
+  getDataByDay(day: Date): Observable<DataS[]> {
+    return this.http.get<DataS[]>(`${this.apiUrl}/by_day?day=${day}`);
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.error('Error al obtener datos:', error);
     return throwError('Ocurrió un error al obtener los datos; por favor, inténtelo de nuevo más tarde.');

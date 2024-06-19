@@ -1,64 +1,163 @@
-<div class="chart-row">
-  <div class="chart-container">
-    <h2>Humedad Relativa</h2>
-    <ngx-charts-pie-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="humidityData"
-      [labels]="true"
-      [legend]="true"
-      [doughnut]="false"
-      [tooltipDisabled]="false"
-      [tooltipTemplate]="tooltipTemplate">
-    </ngx-charts-pie-chart>
-  </div>
+<app-breadcrumb (dateSelected)="onDateSelected($event)"></app-breadcrumb>
+<!-- Aquí va el resto del contenido de tu componente de gráficos -->
 
-  <div class="chart-container">
-    <h2>Humedad del Suelo</h2>
-    <ngx-charts-pie-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="soilMoistureData"
-      [labels]="true"
-      [legend]="true"
-      [doughnut]="false"
-      [tooltipDisabled]="false"
-      [tooltipTemplate]="tooltipTemplate">
-    </ngx-charts-pie-chart>
-  </div>
-</div>
+<div class="container">
+  <div class="row">
+    <!-- Primer Cuadrante: Humedad Relativa -->
+    <div class="col-12">
+      <div class="chart-title">Humedad Relativa (%)</div>
+      <div class="row justify-content-center">
+        <div class="gauge-container">
+          <ngx-gauge
+            [value]="humidityGaugeData"
+            [label]="''"
+            [append]="'%'"
+            [min]="0"
+            [max]="100"
+            [type]="'arch'"
+            [cap]="'round'"
+            [thick]="15"
+            [size]="250"
+            [foregroundColor]="'#a6ce39'"
+            [backgroundColor]="'#2e2e2e'"
+            [labelColor]="'#ffffff'"
+            [valueFont]="'30px sans-serif'">
+          </ngx-gauge>
+        </div>
+        <div class="chart-container">
+          <ngx-charts-line-chart
+            [view]="[400, 200]"
+            [scheme]="colorScheme"
+            [results]="[{ name: 'Humedad', series: humidityLineChartData }]"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Hora'"
+            [yAxisLabel]="'%'"
+            [autoScale]="true">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+    </div>
 
-<div class="chart-row">
-  <div class="chart-container">
-    <h2>Temperatura (°C)</h2>
-    <ngx-charts-bar-vertical
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="temperatureCData"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [xAxisLabel]="'Fecha'"
-      [yAxisLabel]="'°C'">
-    </ngx-charts-bar-vertical>
-  </div>
+    <!-- Segundo Cuadrante: Humedad del Suelo -->
+    <div class="col-12">
+      <div class="chart-title">Humedad del Suelo (%)</div>
+      <div class="row justify-content-center">
+        <div class="gauge-container">
+          <ngx-gauge
+            [value]="soilMoistureGaugeData"
+            [label]="''"
+            [append]="'%'"
+            [min]="0"
+            [max]="100"
+            [type]="'arch'"
+            [cap]="'round'"
+            [thick]="15"
+            [size]="250"
+            [foregroundColor]="'#a6ce39'"
+            [backgroundColor]="'#2e2e2e'"
+            [labelColor]="'#ffffff'"
+            [valueFont]="'30px sans-serif'">
+          </ngx-gauge>
+        </div>
+        <div class="chart-container">
+          <ngx-charts-line-chart
+            [view]="[400, 200]"
+            [scheme]="colorScheme"
+            [results]="[{ name: 'Humedad del Suelo', series: soilMoistureLineChartData }]"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Hora'"
+            [yAxisLabel]="'%'"
+            [autoScale]="true">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+    </div>
 
-  <div class="chart-container">
-    <h2>Índice de Calor (°C)</h2>
-    <ngx-charts-bar-vertical
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="heatIndexCData"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [xAxisLabel]="'Fecha'"
-      [yAxisLabel]="'°C'">
-    </ngx-charts-bar-vertical>
+    <!-- Tercer Cuadrante: Temperatura -->
+    <div class="col-12">
+      <div class="chart-title">Temperatura (°C)</div>
+      <div class="row justify-content-center">
+        <div class="gauge-container">
+          <ngx-gauge
+            [value]="temperatureGaugeData"
+            [label]="''"
+            [append]="'°C'"
+            [min]="-10"
+            [max]="50"
+            [type]="'arch'"
+            [cap]="'round'"
+            [thick]="15"
+            [size]="250"
+            [foregroundColor]="'#a6ce39'"
+            [backgroundColor]="'#2e2e2e'"
+            [labelColor]="'#ffffff'"
+            [valueFont]="'30px sans-serif'">
+          </ngx-gauge>
+        </div>
+        <div class="chart-container">
+          <ngx-charts-line-chart
+            [view]="[400, 200]"
+            [scheme]="colorScheme"
+            [results]="[{ name: 'Temperatura', series: temperatureLineChartData }]"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Hora'"
+            [yAxisLabel]="'°C'"
+            [autoScale]="true">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuarto Cuadrante: Índice de Calor -->
+    <div class="col-12">
+      <div class="chart-title">Índice de Calor (°C)</div>
+      <div class="row justify-content-center">
+        <div class="gauge-container">
+          <ngx-gauge
+            [value]="heatIndexGaugeData"
+            [label]="''"
+            [append]="'°C'"
+            [min]="0"
+            [max]="50"
+            [type]="'arch'"
+            [cap]="'round'"
+            [thick]="15"
+            [size]="250"
+            [foregroundColor]="'#a6ce39'"
+            [backgroundColor]="'#2e2e2e'"
+            [labelColor]="'#ffffff'"
+            [valueFont]="'30px sans-serif'">
+          </ngx-gauge>
+        </div>
+        <div class="chart-container">
+          <ngx-charts-line-chart
+            [view]="[400, 200]"
+            [scheme]="colorScheme"
+            [results]="[{ name: 'Índice de Calor', series: heatIndexLineChartData }]"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Hora'"
+            [yAxisLabel]="'°C'"
+            [autoScale]="true">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

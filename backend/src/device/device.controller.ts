@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { DeviceService } from './device.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
@@ -23,6 +24,11 @@ export class DeviceController {
   @Get()
   findAll() {
     return this.deviceService.findAll();
+  }
+
+  @Get('by-user')
+  findByUser(@Query('userId') userId: number) {
+    return this.deviceService.findByUser(userId);
   }
 
   @Get(':id')

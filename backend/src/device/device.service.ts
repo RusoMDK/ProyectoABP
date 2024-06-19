@@ -22,6 +22,16 @@ export class DeviceService {
     });
   }
 
+  findByUser(userId: number) {
+    return this.deviceRepository.find({
+      where: {
+        user: {
+          id: userId,
+        } as any,
+      },
+    });
+  }
+
   findOne(id: number) {
     return this.deviceRepository.findOneBy({ id });
   }

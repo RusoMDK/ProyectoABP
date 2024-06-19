@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -32,7 +33,7 @@ export class TableEscenaryComponent implements OnChanges,OnInit {
   }
 
   ngOnInit(): void {
-    this.escenaryService.get().subscribe(response => {
+    this.escenaryService.getByUser().subscribe(response => {
       this.listOfData = response;
     });
   }

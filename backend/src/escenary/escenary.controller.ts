@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { EscenaryService } from './escenary.service';
 import { CreateEscenaryDto } from './dto/create-escenary.dto';
 import { UpdateEscenaryDto } from './dto/update-escenary.dto';
@@ -17,13 +26,21 @@ export class EscenaryController {
     return this.escenaryService.findAll();
   }
 
+  @Get('by-user')
+  findByUser(@Query('userId') userId: number) {
+    return this.escenaryService.findByUser(userId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.escenaryService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEscenaryDto: UpdateEscenaryDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateEscenaryDto: UpdateEscenaryDto,
+  ) {
     return this.escenaryService.update(+id, updateEscenaryDto);
   }
 

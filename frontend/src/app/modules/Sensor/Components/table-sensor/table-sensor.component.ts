@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -5,6 +7,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { formatDate } from '@angular/common'; 
 import { TableActionEvent } from '../interface/table-action-event.model';
 import { SensorService } from '../../services/sensor.service';
+import { forEach } from 'lodash';
 interface TableColumn {
   key: string;
   display: string;
@@ -24,6 +27,14 @@ export class TableSensorComponent implements OnChanges,OnInit {
   @Output() actionEvent = new EventEmitter<TableActionEvent>();
 
   loading = false;  // Añadir la propiedad loading
+  
+  columnsKeys = [
+    'id',
+    'type',
+    'description',
+    'devicename',
+    'escenaryname',
+  ]
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['listOfData'] && changes['listOfData'].currentValue) {
@@ -32,7 +43,8 @@ export class TableSensorComponent implements OnChanges,OnInit {
   }
 
   ngOnInit(): void {
-    this.sensorService.get().subscribe(response => {
+    this.sensorService.getByUser().subscribe(response => {
+      console.log(JSON.stringify(response));
       this.listOfData = response;
     });
   }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,6 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TableActionEvent } from '../interface/table-action-event.model';
 import {  SensorService } from '../../services/sensor.service';
 import {  Sensor } from '../interface/sensor.interface';
+import { AddEditSensorComponent } from '../add-edit-sensor/add-edit-sensor.component';
 
 @Component({
   selector: 'app-sensor-list',
@@ -42,6 +45,14 @@ export class SensorListComponent implements OnInit {
       console.log(this.listOfData)
       this.filteredData = [...this.listOfData]; // Inicialmente, la lista filtrada es igual a la lista completa
       this.sortDataByCode();
+    });
+  }
+
+  openAddEditSensorModal(): void {
+    this.modalService.create({
+      nzTitle: 'Crear-Actualizar Sensor',
+      nzContent: AddEditSensorComponent, // Componente que se mostrará en el modal
+      nzFooter: null // Usar los botones definidos en el componente
     });
   }
 

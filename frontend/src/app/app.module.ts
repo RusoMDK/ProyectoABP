@@ -22,6 +22,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { DashboardOutline, UserOutline, BarChartOutline, ExperimentOutline, MobileOutline, EnvironmentOutline, DatabaseOutline } from '@ant-design/icons-angular/icons';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -35,6 +39,10 @@ const icons = [DashboardOutline, UserOutline, BarChartOutline, ExperimentOutline
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    NzButtonModule,
+    NzFormModule,
+    NzInputModule,
+    NzModalModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

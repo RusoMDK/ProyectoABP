@@ -5,6 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { formatDate } from '@angular/common'; 
 import { TableActionEvent } from '../interface/table-action-event.model';
 import { DeviceService } from '../../services/device.service';
+import { AuthenticationService } from 'src/app/core/_services/authentication.service';
 interface TableColumn {
   key: string;
   display: string;
@@ -106,7 +107,12 @@ export class TableDeviceComponent implements OnChanges,OnInit {
     }
   ];
 
-  constructor(private modalService: NzModalService,private readonly deviceService:DeviceService, private notification: NzNotificationService, private router: Router) { 
+  constructor(
+    private modalService: NzModalService,
+    private readonly deviceService:DeviceService,
+    private notification: NzNotificationService,
+     private router: Router
+    ) { 
   }
 
   onItemChecked(id: number, checked: boolean): void {

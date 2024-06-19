@@ -20,6 +20,16 @@ export class EscenaryService {
     return this.escenaryRepository.find();
   }
 
+  findByUser(userId: number) {
+    return this.escenaryRepository.find({
+      where: {
+        user: {
+          id: userId,
+        } as any,
+      },
+    });
+  }
+
   findOne(id: number) {
     return this.escenaryRepository.findOneBy({ id });
   }

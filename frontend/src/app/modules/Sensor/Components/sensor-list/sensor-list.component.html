@@ -1,37 +1,36 @@
 <!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
 <div class="body">
-    <div class="header">
-      <app-breadcrumb class="bread"></app-breadcrumb>
-      <div class="button-container">
-  
-        <button class="button-export" nz-button nz-dropdown [nzDropdownMenu]="menu4" nzTrigger="click">
-          <span nz-icon nzType="filter" nzTheme="fill"></span>
-          Filtros
-          <span nz-icon nzType="caret-down" nzTheme="outline"></span>
-        </button>
-        
-        <nz-dropdown-menu #menu4="nzDropdownMenu">
-          <ul nz-menu nzSelectable>
-            <li nz-menu-item *ngFor="let column of tableColumns">
-              <label nz-checkbox [nzChecked]="column.checked" (nzCheckedChange)="toggleFilter(column.key)">
-                {{ column.display }}
-              </label>
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-  
-        <button nz-button nzType="default" [routerLink]="['/sensors/add-edit-sensor']">
-          <span nz-icon nzType="plus-circle" nzTheme="fill"></span> Agregar nuevo
-        </button>
-      </div>
-    </div>
- 
-  
-    <app-filter-panel [filters]="selectedFilters"
-                      (filterChanged)="applyFilter($event)"
-                      (filterRemoved)="onFilterRemoved($event)"
-                      (filtersReset)="onFiltersReset()">
-    </app-filter-panel>
+  <div class="header">
+    <app-breadcrumb class="bread"></app-breadcrumb>
+    <div class="button-container">
+      <button class="button-export" nz-button nz-dropdown [nzDropdownMenu]="menu4" nzTrigger="click">
+        <span nz-icon nzType="filter" nzTheme="fill"></span>
+        Filtros
+        <span nz-icon nzType="caret-down" nzTheme="outline"></span>
+      </button>
 
-    <app-table-sensor [listOfData]="filteredData" [listOfCurrentPageData]="listOfCurrentPageData" [columns]="tableColumns" (actionEvent)="handleTableAction($event)"></app-table-sensor>
+      <nz-dropdown-menu #menu4="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item *ngFor="let column of tableColumns">
+            <label nz-checkbox [nzChecked]="column.checked" (nzCheckedChange)="toggleFilter(column.key)">
+              {{ column.display }}
+            </label>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+
+      <button nz-button nzType="default" (click)="openAddEditSensorModal()">
+        <span nz-icon nzType="plus-circle" nzTheme="fill"></span> Agregar nuevo
+      </button>
+    </div>
   </div>
+
+  <app-filter-panel [filters]="selectedFilters"
+                    (filterChanged)="applyFilter($event)"
+                    (filterRemoved)="onFilterRemoved($event)"
+                    (filtersReset)="onFiltersReset()">
+  </app-filter-panel>
+
+  <app-table-sensor [listOfData]="filteredData" [listOfCurrentPageData]="listOfCurrentPageData" [columns]="tableColumns" (actionEvent)="handleTableAction($event)"></app-table-sensor>
+
+</div>

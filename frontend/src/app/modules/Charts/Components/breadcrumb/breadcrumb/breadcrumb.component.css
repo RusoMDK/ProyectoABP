@@ -1,0 +1,32 @@
+.breadcrumb-container {
+  margin-top: 20px; /* Espacio entre el encabezado y el breadcrumb */
+}
+
+.breadcrumb {
+  background-color: #171e21;
+  color: #ffffff;
+  border-radius: 25px; /* Bordes circulares */
+  padding: 10px 20px; /* Espaciado interno */
+}
+
+.breadcrumb-item a {
+  color: #a6ce39;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.breadcrumb-item.active {
+  color: #ffffff;
+}
+
+.btn {
+  background-color: #a6ce39;
+  border: none;
+  margin-left: 10px; /* Espacio entre el botón y el breadcrumb */
+
+  &:hover {
+    background-color: #8cbf32;
+  }
+}

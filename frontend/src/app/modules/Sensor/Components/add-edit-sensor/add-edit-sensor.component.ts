@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -10,12 +11,20 @@ import {
   Validators
 } from '@angular/forms';
 import { map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import {SensorService } from '../../services/sensor.service';
 import {  Sensor, SensorCreate } from '../interface/sensor.interface';
+import { Devices } from 'src/app/modules/Device/Components/interface/device.interface';
+import { DeviceService } from 'src/app/modules/Device/services/device.service';
+import { Escenary } from 'src/app/modules/Escenary/Components/interface/escenary.interface';
+import { EscenaryService } from 'src/app/modules/Escenary/services/escenary.service';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { Location } from '@angular/common';
+
+
 @Component({
   selector: 'app-add-edit-sensor',
   templateUrl: './add-edit-sensor.component.html',
@@ -23,19 +32,36 @@ import {  Sensor, SensorCreate } from '../interface/sensor.interface';
 })
 export class AddEditSensorComponent implements OnInit {
 
-  constructor(private cdr: ChangeDetectorRef, private fb: NonNullableFormBuilder,private readonly sensorService:SensorService, private route: ActivatedRoute, private router: Router,private notification: NzNotificationService) {
+  devices: Devices[] = [];
+  deviceId: number = 1;
+  escenarys: Escenary[] = [];
+  escenaryId: number = 1;
+  
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private fb: NonNullableFormBuilder,
+    private readonly sensorService:SensorService, 
+    private route: ActivatedRoute, 
+    private router: Router,
+    private notification: NzNotificationService,
+    private readonly deviceService: DeviceService,
+    private modal: NzModalRef,
+    private readonly escenaryService: EscenaryService,
+    private location: Location
+  ) {
     this.validateForm = this.fb.group({
       type: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      escenary: [null, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      device: [null, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      // escenary: [null, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      // device: [null, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
     });
   }
   validateForm: FormGroup<{
     type:FormControl<string>
     description:FormControl<string>
-    escenary:FormControl<number | any>
-    device:FormControl<number | any>
+    // escenary:FormControl<number | any>
+    // device:FormControl<number | any>
   }>;
 
   
@@ -73,25 +99,29 @@ export class AddEditSensorComponent implements OnInit {
 
 
 
-  createForm(sensors?: Sensor): void {
+  async createForm(sensors?: Sensor) {
+    this.devices = await firstValueFrom(this.deviceService.get());
+    this.escenarys = await firstValueFrom(this.escenaryService.getByUser());
+
+    this.deviceId = Number(this.devices[0].id);
+    this.escenaryId = Number(this.escenarys[0].id);
+
     this.validateForm = this.fb.group({
       description: [sensors ? sensors.description : '', [
         Validators.required,
-        Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ .]+$'),
         this.notOnlyWhitespaceOrDotsValidator ,
         this.notOnlyWhitespaceValidator
       ]],
       
       type: [sensors ? sensors.type : '', [
         Validators.required,
-        Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ .]+$'),
       ]],
-      escenary: [sensors ? sensors.escenary: '', [
-        Validators.required,
-      ]],
-      device: [sensors ? sensors.device: '', [
-        Validators.required,
-      ]],
+      // escenary: [sensors ? sensors.escenary: '', [
+      //   Validators.required,
+      // ]],
+      // device: [sensors ? sensors.device: '', [
+      //   Validators.required,
+      // ]],
     });
   }
 
@@ -109,75 +139,69 @@ export class AddEditSensorComponent implements OnInit {
   }
 
 
-  submitForm(redirectToSensorList: boolean = false): void {
+  submitForm(): void {
     if (this.validateForm.valid) {
       const formValue = this.validateForm.value;
       let sensors: Partial<Sensor> = {
-        description: formValue.description|| '',
-        type: formValue.type|| '',
-        device: formValue.device|| '',
-        escenary: formValue.escenary|| '',
-       
+        description: formValue.description || '',
+        type: formValue.type || '',
+        device: this.deviceId,
+        escenary: this.escenaryId,
       };
-
+  
       const sensorId = this.route.snapshot.paramMap.get('id');
       if (this.isEditing && sensorId) {
         sensors = { ...sensors, id: Number(sensorId) };
-        this.sensorService.update(Number(sensorId),sensors).subscribe({
+        this.sensorService.update(Number(sensorId), sensors).subscribe({
           next: () => {
             this.notification.success('Éxito', 'El Sensor se ha actualizado correctamente');
-
-            // Obtener los datos actualizados del examen desde el backend
-            this.sensorService.getOne(Number(sensorId)).subscribe({
-              next: (updatedSensor: Sensor) => {
-                console.log(updatedSensor);
-                this.createForm(updatedSensor);
-                this.afterSubmit(redirectToSensorList);
-
-              },
-              error: (error) => {
-                console.error(error);
-                // Manejo del error al obtener los datos actualizados
-              }
-            });
+            this.closeModalAndRefresh();
           },
           error: (error) => {
             console.error(error);
-            // Manejo del error
+            this.notification.error('Error', 'Ocurrió un error al actualizar el sensor.');
           }
         });
       } else {
-
         this.sensorService.create(sensors as SensorCreate).subscribe({
           next: () => {
             this.notification.success('Éxito', 'El Sensor se ha agregado correctamente');
-            this.afterSubmit(redirectToSensorList);
+            this.closeModalAndRefresh();
           },
           error: (error) => {
             console.error(error);
-            // Manejo del error
+            this.notification.error('Error', 'Ocurrió un error al agregar el sensor.');
           }
         });
       }
-    } else if (this.validateForm.invalid) {
+    } else {
       this.notification.error('Error', 'Debes rellenar correctamente todos los campos del formulario.');
       this.validateForm.markAllAsTouched();
       this.cdr.detectChanges(); // Forzar la detección de cambios
-      return
     }
   }
+  
+  private closeModalAndRefresh(): void {
+    this.modal.destroy();
+    // Usar location para forzar la recarga de la página actual
+    this.location.go(this.location.path());
+    window.location.reload();
+  }
+  
+  
+  
 
-
-
-  // Método para acciones después de enviar el formulario
-  private afterSubmit(redirectToDevicesList: boolean): void {
+  afterSubmit(redirectToSensorList: boolean): void {
     this.validateForm.reset();
-    if (redirectToDevicesList) {
+    this.modal.destroy(); // Cierra el modal
+    if (redirectToSensorList) {
+      // Redirigir a la lista de sensores o actualizar la lista
       this.router.navigate(['/sensors/list-sensors']);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   }
-
-
 
   resetForm(e: MouseEvent): void {
     e.preventDefault();
@@ -195,6 +219,20 @@ export class AddEditSensorComponent implements OnInit {
     return {};
   };
 
+  handleCancel(): void {
+    this.modal.destroy(); // Cierra el modal
+  }
 
+
+  onSelectDeviceChange(event: Event): void{
+    const selectElement = event.target as HTMLSelectElement;
+    this.deviceId = Number(selectElement.value);
+
+  }
+
+  onSelectEscenaryChange(event: Event): void{
+    const selectElement = event.target as HTMLSelectElement;
+    this.escenaryId = Number(selectElement.value);
+  }
 }
 

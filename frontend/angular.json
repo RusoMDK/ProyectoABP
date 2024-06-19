@@ -13,6 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "rfdc",
+              "jquery"
+            ],
             "outputPath": "dist/sigies-new-front",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -32,9 +36,13 @@
               "src/theme.less",
               "src/styles.css",
               "src/assets/bootstrap/css/bootstrap-grid.rtl.min.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {

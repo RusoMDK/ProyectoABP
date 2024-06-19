@@ -6,13 +6,11 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { DataSensorService } from './data-sensor.service';
 import { CreateDataSensorDto } from './dto/create-data-sensor.dto';
 import { UpdateDataSensorDto } from './dto/update-data-sensor.dto';
-import { AuthGuard } from 'src/auth/guard/auth.guard';
-import { Data_Sensor } from './entities/data-sensor.entity';
 
 @Controller('data-sensor')
 export class DataSensorController {
@@ -23,9 +21,14 @@ export class DataSensorController {
     return this.dataSensorService.create(createDataSensorDto);
   }
 
-  @Get('all')
-  async findAll(): Promise<Data_Sensor[]> {
+  @Get()
+  findAll() {
     return this.dataSensorService.findAll();
+  }
+
+  @Get('by_day')
+  findLastDay(@Query('day') day: string) {
+    return this.dataSensorService.findLastDay(new Date(day));
   }
 
   @Get(':id')

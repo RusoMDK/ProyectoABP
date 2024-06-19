@@ -3,7 +3,11 @@
     <thead>
       <tr>
         <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
-        <th *ngFor="let column of columns">{{ column.display }}</th>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Dispositivo</th>
+        <th>Escenario</th>
         <th >Acciones</th>
       </tr>
     </thead>
@@ -12,20 +16,10 @@
   
         <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
   
-        <td *ngFor="let column of columns">
-          <ng-container *ngIf="column.showSwitch; else nonSwitchTemplate">
-            <nz-switch [ngModel]="data[column.key]" (ngModelChange)="emitRequiredChange(data.id, column.key, $event)" nzCheckedChildren="Si" nzUnCheckedChildren="No"></nz-switch>
-          </ng-container>
-  
-          <ng-template #nonSwitchTemplate>
-            <!-- Manejo de la visualización para valores que no son switches -->
-            <ng-container >
-              {{ data[column.key] }}
-            </ng-container>
-          </ng-template>
-  
-  
+        <td *ngFor="let key of columnsKeys">
+         {{data[key]}}  
         </td>
+        
         <td>
           <button nz-button nzType="default" class="action-button" (click)="show(data.id)">
             <i nz-icon nzType="eye"></i> Mostrar

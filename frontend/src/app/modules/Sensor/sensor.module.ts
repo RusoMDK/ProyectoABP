@@ -8,8 +8,29 @@ import { AddEditSensorComponent } from './Components/add-edit-sensor/add-edit-se
 import { SensorListComponent } from './Components/sensor-list/sensor-list.component';
 import { TableSensorComponent } from './Components/table-sensor/table-sensor.component';
 import { SensorComponent } from './Components/sensor.component';
+import { NzModalModule } from 'ng-zorro-antd/modal'; // Importa NzModalModule
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 @NgModule({
-  declarations: [FilterPanelComponent,BreadcrumbComponent,SensorComponent,AddEditSensorComponent,TableSensorComponent,SensorListComponent],
-  imports: [CommonModule,CoreModule,SensorRoutingModule],
+  declarations: [
+    FilterPanelComponent,
+    BreadcrumbComponent,
+    SensorComponent,
+    AddEditSensorComponent,
+    TableSensorComponent,
+    SensorListComponent
+  ],
+  imports: [
+    CommonModule,
+    CoreModule,
+    SensorRoutingModule,
+    NzModalModule,
+    NzFormModule,
+    NzInputModule,
+    NzSelectModule,
+    NzNotificationModule,
+  ],
 })
 export class SensorModule {}

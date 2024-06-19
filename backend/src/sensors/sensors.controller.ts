@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SensorService } from './sensors.service';
 import { CreateSensorDto } from './dto/create-sensor.dto';
@@ -25,6 +26,10 @@ export class SensorsController {
     return this.sensorsService.findAll();
   }
 
+  @Get('by-user')
+  findByUser(@Query('userId') userId: number) {
+    return this.sensorsService.findByUser(userId);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sensorsService.findOne(+id);

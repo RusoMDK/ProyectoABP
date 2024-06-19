@@ -1,0 +1,23 @@
+.modal-content {
+    background-color: #171e21;
+    color: #ffffff;
+    border-radius: 25px; /* Bordes circulares */
+  }
+  
+  .modal-header, .modal-footer {
+    border: none; /* Quitar borde */
+  }
+  
+  .btn-primary {
+    background-color: #a6ce39;
+    border: none;
+  
+    &:hover {
+      background-color: #8cbf32;
+    }
+  }
+  
+  .modal-dialog {
+    margin-top: 20vh; /* Mover el modal más al medio de la pantalla */
+  }
+  

@@ -28,7 +28,7 @@ export class Data_Sensor {
   })
   sensor: Sensor;
 
-  @ManyToOne(() => Escenary, (escenary) => escenary.datas,{
+  @ManyToOne(() => Escenary, (escenary) => escenary.datas, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })

@@ -1,94 +1,56 @@
-.body{
-  padding: 10px;
+.modal-body {
+  padding: 2rem;
 }
-.header {
-  margin-bottom: 10px;
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.required-asterisk {
+  color: red;
+}
+
+.nz-form-control {
+  position: relative;
+}
+
+.nz-form-control .ant-form-item-children-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.modal-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-radius: 5px;
-  background-color: #F0F2F5; /* Fondo gris claro */
-  padding: 10px; /* Espaciado interior */
-  box-shadow: 0.5px 0.5px 8px rgba(0, 0, 0, 0.2); ;
-}
-
-.button-container {
-  display: flex;
-  gap: 8px; /* Espaciado entre los botones */
-}
-
-nz-breadcrumb {
-  margin-bottom: 0; /* Elimina el margen inferior del breadcrumb */
-}
-
-/*Estilos del form*/
-button {
-  margin-left: 8px;
-}
-
-.div-form {
-  width: 100%;
-  margin: 0 auto; /* Esto centrará el formulario horizontalmente */
-  padding: 10px;
-  background: #F0F2F5;
-  border-top: 4px solid #3C8DBC;
-  border-radius: 3px;
-  box-shadow:  0.5px 0.5px 8px rgba(0, 0, 0, 0.2);
-}
-.div-form p{
-  font-weight: 500;
-  font-size: large;
-}
-
-[nz-form]:not(.ant-form-inline):not(.ant-form-vertical) {
-  min-width: 600px;
-}
-
-.nzswitch{
-  margin-bottom: 10px;
-  margin-right: 15px;
-}
-/*Estilos del cajon de botones*/
-.actionbuttons{
-  background-color: #C3C9CD;
-  padding: 15px 0 15px 0;
-  box-shadow: 0.5px 0.5px 3px rgba(0, 0, 0, 0.1);
-}
-
-/*Estilos de los botones verdes*/
-.butonstyle{
-  margin-left: 8px;
-  background-color: #00a65a;
-  color: white;
-}
-.butonstyle:hover{
-  background-color: #00a65a;
-  color: white;
-}
-/*Estilos del cajon de switch y label*/
-.switch-container{
-  display: flex;
-  align-items: center;
 }
 
 .input-container {
   position: relative;
 }
 
-.error-input {
+.input-container input {
+  width: 100%;
+}
+
+input.error-input {
   border-color: red;
 }
 
-.error-icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 7px;
-  z-index: 1;
-  display: none;
+button[nz-button][nzType="primary"] {
+  background-color: #a6ce39;
+  border-color: #a6ce39;
 }
 
-.error-message {
-  color: red;
-  margin-top: 4px;
+button[nz-button][nzType="primary"]:hover {
+  background-color: #8fbf33;
+  border-color: #8fbf33;
+}
+
+button[nz-button][nzType="primary"]:focus {
+  background-color: #8fbf33;
+  border-color: #8fbf33;
 }

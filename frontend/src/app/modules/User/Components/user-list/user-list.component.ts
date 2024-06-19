@@ -176,7 +176,6 @@ export class UserListComponent implements OnInit {
   }
 
   deleteData(id: number): void {
-    // encontrar el examen para obtener su nombre antes de borrarlo
     const device = this.listOfData.find(item => String(item.id) === String(id));
     if (!device) {
       this.notification.error('Error', 'User no encontrado.');

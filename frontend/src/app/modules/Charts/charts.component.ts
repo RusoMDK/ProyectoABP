@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../Data/services/data.service';
 import { DataS } from '../Data/Components/interface/data.interface';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-charts',
@@ -12,13 +13,17 @@ import { Color, ScaleType } from '@swimlane/ngx-charts';
   styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements OnInit {
-  humidityData: any[] = [];
-  soilMoistureData: any[] = [];
-  temperatureCData: any[] = [];
-  heatIndexCData: any[] = [];
+  humidityGaugeData: number = 0;
+  soilMoistureGaugeData: number = 0;
+  temperatureGaugeData: number = 0;
+  heatIndexGaugeData: number = 0;
+  humidityLineChartData: any[] = [];
+  soilMoistureLineChartData: any[] = [];
+  temperatureLineChartData: any[] = [];
+  heatIndexLineChartData: any[] = [];
+  day: string = '';
 
-  view: [number, number] = [300, 300]; // Ajustamos el tamaño del gráfico
-
+  view: [number, number] = [200, 200]; // Tamaño del gráfico
   colorScheme: Color = {
     name: 'cool',
     selectable: true,
@@ -28,25 +33,33 @@ export class ChartsComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
 
+
   ngOnInit(): void {
-    this.dataService.getAllStoredData().subscribe({
+    this.loadData(new Date().toISOString().split('T')[0]);
+  }
+
+  loadData(day: string): void {
+    this.dataService.getDataByDay(new Date(day)).subscribe({
       next: (data: DataS[]) => {
-        console.log('Data received:', data);
-        this.processData(this.getLastDayAverages(data));
+        console.log('Datos recibidos para el día seleccionado:', data);
+        this.processData(this.groupDataByInterval(data, 5));
       },
       error: (error) => {
-        console.error('Error al obtener datos almacenados:', error);
+        console.error('Error al obtener datos para la fecha seleccionada:', error);
       }
     });
   }
 
-  getLastDayAverages(data: DataS[]): DataS[] {
+  groupDataByInterval(data: DataS[], intervalMinutes: number): DataS[] {
     const grouped: { [key: string]: { [key: string]: number[] } } = {};
 
     data.forEach(d => {
-      const date = new Date(d.createdAt).toISOString().split('T')[0];
-      if (!grouped[date]) {
-        grouped[date] = {
+      const date = new Date(d.createdAt);
+      const roundedDate = new Date(Math.floor(date.getTime() / (intervalMinutes * 60 * 1000)) * (intervalMinutes * 60 * 1000));
+      const dateString = roundedDate.toISOString();
+
+      if (!grouped[dateString]) {
+        grouped[dateString] = {
           humedad: [],
           soilMoisture: [],
           temperaturaC: [],
@@ -54,36 +67,100 @@ export class ChartsComponent implements OnInit {
         };
       }
       // Initialize the key if it doesn't exist
-      if (!grouped[date][d.type]) {
-        grouped[date][d.type] = [];
+      if (!grouped[dateString][d.type]) {
+        grouped[dateString][d.type] = [];
       }
-      grouped[date][d.type].push(d.data);
+      grouped[dateString][d.type].push(d.data);
     });
 
-    const lastDate = Object.keys(grouped).sort().pop();
     const averagedData: DataS[] = [];
 
-    if (lastDate) {
-      Object.keys(grouped[lastDate]).forEach(type => {
-        const values = grouped[lastDate][type];
+    Object.keys(grouped).forEach(dateString => {
+      const entry = grouped[dateString];
+      Object.keys(entry).forEach(type => {
+        const values = entry[type];
         if (values.length > 0) {
           const average = values.reduce((a, b) => a + b, 0) / values.length;
           if (!isNaN(average)) {
             averagedData.push({
               type: type,
               data: average,
-              id: Date.parse(lastDate),
-              createdAt: new Date(lastDate)
+              id: Date.parse(dateString),
+              createdAt: new Date(dateString)
             });
           } else {
-            console.warn(`Invalid average value for ${type} on ${lastDate}: ${average}`);
+            console.warn(`Valor promedio inválido para ${type}`);
           }
         }
       });
-    }
+    });
 
-    console.log('Averaged Data for Last Day:', averagedData);
+    console.log('Datos promediados para cada intervalo:', averagedData);
     return averagedData;
+  }
+
+  processData(data: DataS[]): void {
+    this.humidityGaugeData = 0;
+    this.soilMoistureGaugeData = 0;
+    this.temperatureGaugeData = 0;
+    this.heatIndexGaugeData = 0;
+
+    this.humidityLineChartData = [];
+    this.soilMoistureLineChartData = [];
+    this.temperatureLineChartData = [];
+    this.heatIndexLineChartData = [];
+
+    data.forEach(d => {
+      switch (d.type) {
+        case 'humedad':
+          this.humidityGaugeData = d.data;
+          this.humidityLineChartData.push({
+            name: new Date(d.createdAt).toLocaleTimeString(),
+            value: d.data
+          });
+          break;
+        case 'soilMoisture':
+          this.soilMoistureGaugeData = this.convertSoilMoistureToPercentage(d.data);
+          this.soilMoistureLineChartData.push({
+            name: new Date(d.createdAt).toLocaleTimeString(),
+            value: this.convertSoilMoistureToPercentage(d.data)
+          });
+          break;
+        case 'temperaturaC':
+          this.temperatureGaugeData = d.data;
+          this.temperatureLineChartData.push({
+            name: new Date(d.createdAt).toLocaleTimeString(),
+            value: d.data
+          });
+          break;
+        case 'heatIndexC':
+          this.heatIndexGaugeData = d.data;
+          this.heatIndexLineChartData.push({
+            name: new Date(d.createdAt).toLocaleTimeString(),
+            value: d.data
+          });
+          break;
+        default:
+          console.warn(`Tipo de datos desconocido: ${d.type}`);
+          break;
+      }
+    });
+
+    console.log('Datos procesados:', {
+      humidityGaugeData: this.humidityGaugeData,
+      soilMoistureGaugeData: this.soilMoistureGaugeData,
+      temperatureGaugeData: this.temperatureGaugeData,
+      heatIndexGaugeData: this.heatIndexGaugeData,
+      humidityLineChartData: this.humidityLineChartData,
+      soilMoistureLineChartData: this.soilMoistureLineChartData,
+      temperatureLineChartData: this.temperatureLineChartData,
+      heatIndexLineChartData: this.heatIndexLineChartData
+    });
+  }
+
+  onDateSelected(date: string): void {
+    console.log('Fecha seleccionada:', date);
+    this.loadData(date);
   }
 
   convertSoilMoistureToPercentage(value: number): number {
@@ -91,32 +168,5 @@ export class ChartsComponent implements OnInit {
     const max = 4095;
     const percentage = ((value - min) / (max - min)) * 100;
     return Math.min(Math.max(percentage, 0), 100);
-  }
-
-  processData(data: DataS[]) {
-    data.forEach(d => {
-      const newDataPoint = { name: d.createdAt.toISOString(), value: d.data };
-
-      console.log(`Processing data: ${d.type} - ${d.data} at ${d.createdAt}`);
-
-      switch (d.type) {
-        case 'humedad':
-          this.humidityData = [{ name: 'Humedad', value: d.data }];
-          break;
-        case 'soilMoisture':
-          const soilMoisturePercentage = this.convertSoilMoistureToPercentage(d.data);
-          this.soilMoistureData = [{ name: 'Humedad del Suelo', value: soilMoisturePercentage }];
-          break;
-        case 'temperaturaC':
-          this.temperatureCData = [{ name: 'Temperatura (°C)', value: d.data }];
-          break;
-        case 'heatIndexC':
-          this.heatIndexCData = [{ name: 'Índice de Calor (°C)', value: d.data }];
-          break;
-        default:
-          console.warn(`Unknown data type: ${d.type}`);
-          break;
-      }
-    });
   }
 }

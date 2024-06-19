@@ -17,7 +17,34 @@ export class SensorService {
   }
 
   findAll() {
-    return this.sensorRepository.find();
+    return this.sensorRepository
+      .createQueryBuilder('sensor')
+      .leftJoinAndSelect('sensor.device', 'device')
+      .leftJoinAndSelect('device.user', 'user')
+      .select([
+        'sensor.id AS id',
+        'sensor.type AS type',
+        'sensor.description AS description',
+        'user.name AS username',
+      ])
+      .getRawMany();
+  }
+
+  findByUser(userId: number) {
+    return this.sensorRepository
+      .createQueryBuilder('sensor')
+      .leftJoinAndSelect('sensor.device', 'device')
+      .leftJoinAndSelect('device.user', 'user')
+      .leftJoinAndSelect('sensor.escenary', 'escenary')
+      .select([
+        'sensor.id AS id',
+        'sensor.type AS type',
+        'sensor.description AS description',
+        'device.name AS deviceName',
+        'escenary.name AS escenaryName',
+      ])
+      .where('user.id = :id', { id: userId })
+      .getRawMany();
   }
 
   findOne(id: number) {
